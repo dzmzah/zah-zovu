@@ -470,6 +470,40 @@
     .service-row.svc-static:hover .service-name { color: var(--fg); }
     .service-row.svc-static .service-arrow { visibility: hidden; }
 
+    /* cursor-following work preview — teases the portfolio on hover */
+    .svc-preview {
+      position: fixed;
+      top: 0; left: 0;
+      width: 320px;
+      aspect-ratio: 16 / 10;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.6);
+      pointer-events: none;
+      z-index: 1200;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.92);
+      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.16,1,.3,1);
+      will-change: transform, opacity;
+    }
+    .svc-preview.show { opacity: 1; }
+    .svc-preview img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top center;
+      display: block;
+    }
+    /* hint that these rows open a gallery */
+    .service-row[data-cat] .service-arrow::after {
+      content: "  view";
+      font-size: 10px;
+      letter-spacing: 0.2em;
+    }
+    @media (hover: none), (max-width: 900px) {
+      .svc-preview { display: none; }
+      .service-row[data-cat] .service-arrow::after { content: ""; }
+    }
+
     .service-num {
       font-family: var(--mono);
       font-size: 12px;
@@ -1272,6 +1306,36 @@
       pager.querySelector('.pf-next').addEventListener('click', () =>
         grid.scrollBy({ left: grid.clientWidth, behavior: 'smooth' }));
     });
+
+    // Cursor-following preview that teases the portfolio on category hover
+    (function () {
+      const shots = {
+        websites: ['shot_fightmode.png', 'shot_beegelato.png', 'shot_maya.png', 'shot_shaurma.png'],
+        video: [], ai: []
+      };
+      const preview = document.createElement('div');
+      preview.className = 'svc-preview';
+      preview.innerHTML = '<img alt="">';
+      document.body.appendChild(preview);
+      const pImg = preview.querySelector('img');
+      let tx = innerWidth / 2, ty = innerHeight / 2, cx = tx, cy = ty, cs = 0.92, active = false, idx = 0;
+      document.querySelectorAll('.service-row[data-cat]').forEach(row => {
+        const set = shots[row.dataset.cat];
+        if (!set || !set.length) return;
+        row.addEventListener('mouseenter', () => {
+          pImg.src = set[idx % set.length]; idx++;
+          preview.classList.add('show'); active = true;
+        });
+        row.addEventListener('mouseleave', () => { preview.classList.remove('show'); active = false; });
+      });
+      window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
+      (function loop() {
+        cx += (tx - cx) * 0.16; cy += (ty - cy) * 0.16;
+        cs += ((active ? 1 : 0.92) - cs) * 0.16;
+        preview.style.transform = 'translate(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px) translate(-50%,-50%) scale(' + cs.toFixed(3) + ')';
+        requestAnimationFrame(loop);
+      })();
+    })();
 
     // In-page links: smooth scroll WITHOUT writing the hash to the URL
     document.querySelectorAll('a[href^="#"]:not([data-open])').forEach(a => {
