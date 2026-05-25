@@ -684,37 +684,45 @@
       filter: grayscale(0) brightness(1);
     }
 
-    /* graphics/posts tiles */
-    .post-card { display: block; overflow: hidden; border-radius: 12px; }
+    /* graphics/posts — masonry: full images, natural aspect, no empty zones */
+    .posts-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      column-count: 3;
+      column-gap: 16px;
+    }
+    @media (max-width: 980px) { .posts-grid { column-count: 2; } }
+    @media (max-width: 600px) { .posts-grid { column-count: 2; column-gap: 12px; } }
+    .post-card {
+      display: block;
+      break-inside: avoid;
+      margin-bottom: 16px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
     .post-img {
       width: 100%;
-      height: 230px;
-      object-fit: cover;
-      object-position: center;
+      height: auto;
       display: block;
       border-radius: 12px;
       border: 1px solid var(--line);
       filter: grayscale(0.18) brightness(0.88);
-      transition: transform 1.2s cubic-bezier(.16,1,.3,1), filter 0.5s, border-color 0.4s;
+      transition: filter 0.5s, border-color 0.4s, transform 0.5s cubic-bezier(.16,1,.3,1);
     }
     .post-card:hover .post-img {
-      transform: scale(1.05);
+      transform: scale(1.03);
       filter: grayscale(0) brightness(1);
       border-color: var(--accent);
     }
-    @media (max-width: 600px) {
-      .post-img { height: 168px; }
-    }
 
-    /* video reels wall */
+    /* video reels wall — 3 per row (3x3) */
     .video-grid {
-      max-width: 1400px;
+      max-width: 1200px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
-    @media (max-width: 980px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
     .video-tile {
       width: 100%;
@@ -1361,20 +1369,16 @@
         <h2 class="section-title" data-i18n="pf_gfx_title">Graphics &amp; <em>posts</em></h2>
         <div class="pf-panel-aside" data-i18n="pf_gfx_aside">Click any to open full size.</div>
       </div>
-      <div class="works-grid">
-        <a href="post_beegelato.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_beegelato.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_pickactive.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_pickactive.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_upwork.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_upwork.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_marketing.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_marketing.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_greenproject.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_greenproject.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_wymiana.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_wymiana.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_creatine.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_creatine.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_yt1.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_yt1.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_yt2.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_yt2.jpg" alt="" loading="lazy" class="post-img"></a>
-      </div>
-      <div class="pf-pager">
-        <button class="pf-prev" aria-label="Previous">‹</button>
-        <button class="pf-next" aria-label="Next">›</button>
+      <div class="posts-grid">
+        <a href="post_beegelato.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_beegelato.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_pickactive.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_pickactive.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_upwork.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_upwork.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_marketing.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_marketing.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_greenproject.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_greenproject.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_wymiana.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_wymiana.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_creatine.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_creatine.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_yt1.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_yt1.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_yt2.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_yt2.jpg" alt="" loading="lazy" class="post-img"></a>
       </div>
     </div>
 
