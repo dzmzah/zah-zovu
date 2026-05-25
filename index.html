@@ -102,14 +102,14 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 1000;
-      padding: 16px 40px 0;
+      padding: 38px clamp(20px, 3vw, 40px) 0;
       pointer-events: none;
-      /* padding is scroll-driven via JS (see updateNav) */
+      transition: padding 1s ease; /* same timing as fen-mma (all 1s ease) */
     }
 
     .nav-inner {
       pointer-events: auto;
-      max-width: 1080px;
+      width: 100%;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -119,15 +119,16 @@
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border: 1px solid var(--line);
-      border-radius: 16px;
+      border-radius: 10px;
       padding: 11px 24px;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.45);
-      /* max-width & border-radius are scroll-driven via JS (see updateNav) */
-      transition: border-color 0.3s ease, box-shadow 0.4s ease;
+      transition: all 1s ease; /* same easing/duration as fen-mma */
     }
 
-    /* fully expanded edge-to-edge (JS toggles near end of scroll range) */
+    /* on scroll: slide up + widen to near-full, square off (fen-mma behaviour) */
+    nav.scrolled { padding: 12px 10px 0; }
     nav.scrolled .nav-inner {
+      border-radius: 0;
       border-left: 0;
       border-right: 0;
       border-top: 0;
@@ -1218,26 +1219,11 @@
 
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-    // Navbar: compact pill that widens gradually, tied to scroll position
+    // Navbar: floating bar that slides up + widens on scroll (fen-mma style, all 1s ease)
     const navEl = document.getElementById('nav');
-    const navInner = navEl.querySelector('.nav-inner');
-    let navTick = false;
-    function updateNav() {
-      const range = Math.max(window.innerHeight * 0.65, 420); // scroll distance to fully expand
-      const p = Math.min(Math.max(window.scrollY / range, 0), 1);
-      // ease-in-out cubic: slow at the start so it doesn't snap open
-      const e = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-      navEl.style.padding = (16 * (1 - e)).toFixed(2) + 'px ' + (40 * (1 - e)).toFixed(2) + 'px 0';
-      navInner.style.maxWidth = (1080 + (window.innerWidth - 1080) * e).toFixed(1) + 'px';
-      navInner.style.borderRadius = (16 * (1 - e)).toFixed(2) + 'px';
-      navEl.classList.toggle('scrolled', p > 0.98);
-      navTick = false;
-    }
-    window.addEventListener('scroll', () => {
-      if (!navTick) { requestAnimationFrame(updateNav); navTick = true; }
-    }, { passive: true });
-    window.addEventListener('resize', updateNav);
-    updateNav();
+    const onScroll = () => navEl.classList.toggle('scrolled', window.scrollY > 60);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
 
     // Portfolio category views (tabs) — no hash in the URL
     const portfolio = document.getElementById('portfolio');
