@@ -35,6 +35,7 @@
       font-weight: 400;
       line-height: 1.5;
       overflow-x: hidden;
+      zoom: 0.85; /* scale whole site down a touch */
     }
 
     a { color: inherit; text-decoration: none; }
@@ -1411,7 +1412,7 @@
       const preview = document.createElement('div');
       preview.className = 'svc-preview';
       preview.innerHTML = '<img alt="">';
-      document.body.appendChild(preview);
+      document.documentElement.appendChild(preview); // outside body zoom so cursor coords match
       const pImg = preview.querySelector('img');
       let tx = innerWidth / 2, ty = innerHeight / 2, cx = tx, cy = ty, cs = 0.92, active = false;
       let currentSet = [], idx = 0, rotTimer = null;
