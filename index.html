@@ -761,7 +761,25 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
-    @media (max-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    /* phone: swipe carousel — 2 reels per page (uses videos 1-8) */
+    @media (max-width: 600px) {
+      .video-grid {
+        display: flex;
+        grid-template-columns: none;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 12px;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .video-grid::-webkit-scrollbar { display: none; }
+      .video-grid .video-tile {
+        flex: 0 0 auto;
+        width: calc(50% - 6px);
+      }
+      .video-grid .video-tile:nth-child(odd) { scroll-snap-align: start; }
+      .video-grid .video-tile:nth-child(9) { display: none; }
+    }
     .video-tile {
       width: 100%;
       aspect-ratio: 9 / 16;
