@@ -492,6 +492,7 @@
       width: 100%; height: 100%;
       object-fit: cover; object-position: top center;
       display: block;
+      transition: opacity 0.25s ease;
     }
     /* hint that these rows open a gallery */
     .service-row[data-cat] .service-arrow::after {
@@ -1318,15 +1319,28 @@
       preview.innerHTML = '<img alt="">';
       document.body.appendChild(preview);
       const pImg = preview.querySelector('img');
-      let tx = innerWidth / 2, ty = innerHeight / 2, cx = tx, cy = ty, cs = 0.92, active = false, idx = 0;
+      let tx = innerWidth / 2, ty = innerHeight / 2, cx = tx, cy = ty, cs = 0.92, active = false;
+      let currentSet = [], idx = 0, rotTimer = null;
+      const paint = () => { pImg.src = currentSet[idx % currentSet.length]; };
+      const fadeTo = (next) => {
+        idx = next;
+        pImg.style.opacity = '0';
+        setTimeout(() => { paint(); pImg.style.opacity = '1'; }, 180);
+      };
       document.querySelectorAll('.service-row[data-cat]').forEach(row => {
         const set = shots[row.dataset.cat];
         if (!set || !set.length) return;
         row.addEventListener('mouseenter', () => {
-          pImg.src = set[idx % set.length]; idx++;
+          currentSet = set;
           preview.classList.add('show'); active = true;
+          pImg.style.opacity = '1'; paint();
+          clearInterval(rotTimer);
+          if (set.length > 1) rotTimer = setInterval(() => fadeTo(idx + 1), 5000); // auto-cycle every 5s
         });
-        row.addEventListener('mouseleave', () => { preview.classList.remove('show'); active = false; });
+        row.addEventListener('mouseleave', () => {
+          preview.classList.remove('show'); active = false;
+          clearInterval(rotTimer);
+        });
       });
       window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
       (function loop() {
