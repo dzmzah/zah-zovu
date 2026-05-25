@@ -503,28 +503,30 @@
     .service-row.svc-static:hover .service-name { color: var(--fg); }
     .service-row.svc-static .service-arrow { visibility: hidden; }
 
-    /* cursor-following work preview — teases the portfolio on hover */
+    /* cursor-following preview — shows the FULL item at its natural aspect */
     .svc-preview {
       position: fixed;
       top: 0; left: 0;
-      width: 320px;
-      aspect-ratio: 16 / 10;
       border-radius: 10px;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.14);
       box-shadow: 0 24px 70px rgba(0,0,0,0.6);
+      background: #0a0a0a;
+      line-height: 0;
       pointer-events: none;
       z-index: 1200;
       opacity: 0;
       transform: translate(-50%, -50%) scale(0.92);
-      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(.16,1,.3,1);
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(.16,1,.3,1);
       will-change: transform, opacity;
     }
     .svc-preview.show { opacity: 1; }
-    .svc-preview img {
-      width: 100%; height: 100%;
-      object-fit: cover; object-position: top center;
+    .svc-preview img, .svc-preview video {
       display: block;
+      width: auto; height: auto;
+      max-width: 300px;
+      max-height: 440px;
+      object-fit: contain;
       transition: opacity 0.25s ease;
     }
     /* hint that these rows open a gallery */
@@ -740,32 +742,6 @@
       transform: translateY(-4px);
       box-shadow: 0 16px 44px rgba(124,58,237,0.25);
     }
-
-    /* hover → show the item full-size (centered overlay) */
-    .zoom-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(0, 0, 0, 0.78);
-      -webkit-backdrop-filter: blur(4px);
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s ease;
-    }
-    .zoom-overlay.show { opacity: 1; }
-    .zoom-overlay img, .zoom-overlay video {
-      max-width: 88vw;
-      max-height: 88vh;
-      object-fit: contain;
-      border-radius: 10px;
-      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
-      background: #000;
-    }
-    @media (hover: none), (max-width: 900px) { .zoom-overlay { display: none; } }
 
     /* ───── PORTFOLIO (category views) ───── */
     .portfolio {
@@ -1488,74 +1464,73 @@
       });
     });
 
-    // Hover any portfolio item -> show it full-size in a centered overlay
+    // Cursor-following preview — shows the FULL item (natural aspect) on hover
     (function () {
       if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-      const ov = document.createElement('div');
-      ov.className = 'zoom-overlay';
-      const oimg = document.createElement('img');
-      const ovid = document.createElement('video');
-      ovid.muted = true; ovid.loop = true; ovid.playsInline = true;
-      ov.append(oimg, ovid);
-      document.documentElement.appendChild(ov); // outside body zoom
-      const showImg = (src) => { ovid.style.display = 'none'; ovid.pause(); oimg.style.display = 'block'; oimg.src = src; ov.classList.add('show'); };
-      const showVid = (src) => { oimg.style.display = 'none'; ovid.style.display = 'block'; if (ovid.src !== src) ovid.src = src; ovid.currentTime = 0; ovid.play().catch(() => {}); ov.classList.add('show'); };
-      const hide = () => { ov.classList.remove('show'); ovid.pause(); };
-      // posts (open full image)
-      document.querySelectorAll('.post-card').forEach(card => {
-        const full = card.getAttribute('href') || card.querySelector('img')?.src;
-        card.addEventListener('mouseenter', () => showImg(full));
-        card.addEventListener('mouseleave', hide);
-      });
-      // website screenshots
-      document.querySelectorAll('.pf-panel[data-cat="websites"] .work-card').forEach(card => {
-        const img = card.querySelector('.work-shot img');
-        if (!img) return;
-        card.addEventListener('mouseenter', () => showImg(img.src));
-        card.addEventListener('mouseleave', hide);
-      });
-      // video reels (play large, muted)
-      document.querySelectorAll('.video-tile').forEach(v => {
-        v.addEventListener('mouseenter', () => showVid(v.currentSrc || v.getAttribute('src')));
-        v.addEventListener('mouseleave', hide);
-      });
-    })();
+      const preview = document.createElement('div');
+      preview.className = 'svc-preview';
+      const pImg = document.createElement('img');
+      const pVid = document.createElement('video');
+      pVid.muted = true; pVid.loop = true; pVid.playsInline = true;
+      preview.append(pImg, pVid);
+      document.documentElement.appendChild(preview); // outside body zoom so cursor coords match
 
-    // Cursor-following preview that teases the portfolio on category hover
-    (function () {
+      let tx = innerWidth / 2, ty = innerHeight / 2, cx = tx, cy = ty, cs = 0.92, active = false;
+      let currentSet = [], idx = 0, rotTimer = null;
+
+      const showImage = (src) => {
+        pVid.style.display = 'none'; pVid.pause();
+        pImg.style.display = 'block'; pImg.src = src;
+        preview.classList.add('show'); active = true;
+      };
+      const showVideo = (src) => {
+        pImg.style.display = 'none';
+        pVid.style.display = 'block';
+        if (pVid.getAttribute('src') !== src) pVid.setAttribute('src', src);
+        pVid.currentTime = 0; pVid.play().catch(() => {});
+        preview.classList.add('show'); active = true;
+      };
+      const hide = () => { preview.classList.remove('show'); active = false; pVid.pause(); clearInterval(rotTimer); };
+
+      // home category rows: cycle a few representative previews
       const shots = {
         websites: ['shot_fightmode.png', 'shot_beegelato.png', 'shot_maya.png', 'shot_shaurma.png'],
         video: ['vidposter1.jpg', 'vidposter3.jpg', 'vidposter7.jpg', 'vidposter5.jpg'],
         ai: ['post_beegelato.jpg', 'post_pickactive.jpg', 'post_upwork.jpg', 'post_greenproject.jpg']
       };
-      const preview = document.createElement('div');
-      preview.className = 'svc-preview';
-      preview.innerHTML = '<img alt="">';
-      document.documentElement.appendChild(preview); // outside body zoom so cursor coords match
-      const pImg = preview.querySelector('img');
-      let tx = innerWidth / 2, ty = innerHeight / 2, cx = tx, cy = ty, cs = 0.92, active = false;
-      let currentSet = [], idx = 0, rotTimer = null;
-      const paint = () => { pImg.src = currentSet[idx % currentSet.length]; };
       const fadeTo = (next) => {
         idx = next;
         pImg.style.opacity = '0';
-        setTimeout(() => { paint(); pImg.style.opacity = '1'; }, 180);
+        setTimeout(() => { pImg.src = currentSet[idx % currentSet.length]; pImg.style.opacity = '1'; }, 180);
       };
       document.querySelectorAll('.service-row[data-cat]').forEach(row => {
         const set = shots[row.dataset.cat];
         if (!set || !set.length) return;
         row.addEventListener('mouseenter', () => {
-          currentSet = set;
-          preview.classList.add('show'); active = true;
-          pImg.style.opacity = '1'; paint();
+          currentSet = set; idx = idx % set.length;
+          pImg.style.opacity = '1'; showImage(set[idx]);
           clearInterval(rotTimer);
-          if (set.length > 1) rotTimer = setInterval(() => fadeTo(idx + 1), 3000); // auto-cycle every 3s
+          if (set.length > 1) rotTimer = setInterval(() => fadeTo(idx + 1), 3000);
         });
-        row.addEventListener('mouseleave', () => {
-          preview.classList.remove('show'); active = false;
-          clearInterval(rotTimer);
-        });
+        row.addEventListener('mouseleave', hide);
       });
+
+      // panel items: show the actual full item (natural aspect)
+      document.querySelectorAll('.post-card').forEach(card => {
+        const full = card.getAttribute('href') || (card.querySelector('img') && card.querySelector('img').src);
+        card.addEventListener('mouseenter', () => showImage(full));
+        card.addEventListener('mouseleave', hide);
+      });
+      document.querySelectorAll('.pf-panel[data-cat="websites"] .work-card').forEach(card => {
+        const img = card.querySelector('.work-shot img'); if (!img) return;
+        card.addEventListener('mouseenter', () => showImage(img.src));
+        card.addEventListener('mouseleave', hide);
+      });
+      document.querySelectorAll('.video-tile').forEach(v => {
+        v.addEventListener('mouseenter', () => showVideo(v.currentSrc || v.getAttribute('src')));
+        v.addEventListener('mouseleave', hide);
+      });
+
       window.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; }, { passive: true });
       (function loop() {
         cx += (tx - cx) * 0.16; cy += (ty - cy) * 0.16;
