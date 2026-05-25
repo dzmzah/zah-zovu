@@ -187,6 +187,30 @@
     }
     .nav-soc:hover { color: var(--accent-2); transform: translateY(-2px); }
 
+    .nav-lang {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 2px;
+    }
+    .lang-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--fg-dim);
+      background: transparent;
+      border: 0;
+      padding: 5px 8px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .lang-btn:hover { color: var(--fg); }
+    .lang-btn.active { color: #fff; background: var(--accent); }
+
     .nav-logo {
       display: flex;
       align-items: center;
@@ -848,16 +872,21 @@
     <div class="nav-inner">
       <div class="nav-left">
         <a href="https://zovu.pl" target="_blank" rel="noopener" class="nav-btn nav-btn-dark">ZOVU.PL ↗</a>
-        <a href="#contact" class="nav-btn nav-btn-accent">Contact</a>
-        <a href="#services" class="nav-link">About</a>
-        <a href="#" class="nav-link" data-open="websites">Works</a>
+        <a href="#contact" class="nav-btn nav-btn-accent" data-i18n="nav_contact">Contact</a>
+        <a href="#services" class="nav-link" data-i18n="nav_about">About</a>
+        <a href="#" class="nav-link" data-open="websites" data-i18n="nav_works">Works</a>
       </div>
       <a href="#" class="nav-logo">
         <img src="logo_png.png" alt="ZOVU" />
         <span>ZOVU</span>
       </a>
       <div class="nav-right">
-        <a href="#services" class="nav-link">Services</a>
+        <a href="#services" class="nav-link" data-i18n="nav_services">Services</a>
+        <div class="nav-lang">
+          <button class="lang-btn" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="pl">PL</button>
+          <button class="lang-btn" data-lang="ru">RU</button>
+        </div>
         <div class="nav-socials">
           <a href="https://instagram.com/zahcreator" target="_blank" rel="noopener" aria-label="Instagram" class="nav-soc">
             <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>
@@ -878,19 +907,19 @@
     <div class="hero-bg"></div>
     <img src="logo_png.png" alt="" class="hero-blob" />
 
-    <div class="hero-eyebrow">Creator @ ZOVU · Est. 2024</div>
+    <div class="hero-eyebrow" data-i18n="hero_eyebrow">Creator @ ZOVU · Est. 2024</div>
 
     <h1 class="hero-title">ZAH</h1>
 
-    <div class="hero-sub">Sites <span>·</span> Video <span>·</span> AI <span>·</span> Content</div>
+    <div class="hero-sub" data-i18n="hero_sub">Sites <span>·</span> Video <span>·</span> AI <span>·</span> Content</div>
 
     <div class="hero-meta">
       <div>
         <strong>ZAH</strong><br>
-        Katowice → Worldwide
+        <span data-i18n="hero_location">Katowice → Worldwide</span>
       </div>
       <div class="hero-meta-right">
-        <strong>Scroll</strong><br>
+        <strong data-i18n="hero_scroll">Scroll</strong><br>
         ↓
       </div>
     </div>
@@ -901,19 +930,19 @@
     <div class="stats-inner">
       <div class="stat">
         <div class="stat-value">10M+</div>
-        <div class="stat-label">Views</div>
+        <div class="stat-label" data-i18n="stat_views">Views</div>
       </div>
       <div class="stat">
         <div class="stat-value">100K+</div>
-        <div class="stat-label">Followers</div>
+        <div class="stat-label" data-i18n="stat_followers">Followers</div>
       </div>
       <div class="stat">
         <div class="stat-value">70K$+</div>
-        <div class="stat-label">Ad Spend</div>
+        <div class="stat-label" data-i18n="stat_adspend">Ad Spend</div>
       </div>
       <div class="stat">
         <div class="stat-value">2+</div>
-        <div class="stat-label">Years</div>
+        <div class="stat-label" data-i18n="stat_years">Years</div>
       </div>
     </div>
   </div>
@@ -922,10 +951,10 @@
   <section id="services">
     <div class="section-head reveal">
       <div>
-        <div class="section-num">01 / Services</div>
-        <h2 class="section-title">What I <em>build</em></h2>
+        <div class="section-num" data-i18n="svc_kicker">01 / Services</div>
+        <h2 class="section-title" data-i18n="svc_title">What I <em>build</em></h2>
       </div>
-      <div class="section-aside">
+      <div class="section-aside" data-i18n="svc_aside">
         At ZOVU I handle the build side. My brother runs strategy and ads — I make the things you actually see and use.
       </div>
     </div>
@@ -933,32 +962,32 @@
     <div class="services reveal">
       <div class="service-row" data-cat="websites">
         <div class="service-num">01</div>
-        <div class="service-name">Websites</div>
-        <div class="service-desc">Landing pages, business sites, e-commerce. WordPress or hand-coded. Built fast, mobile-first, converting.</div>
+        <div class="service-name" data-i18n="svc1_name">Websites</div>
+        <div class="service-desc" data-i18n="svc1_desc">Landing pages, business sites, e-commerce. WordPress or hand-coded. Built fast, mobile-first, converting.</div>
         <div class="service-arrow">→</div>
       </div>
       <div class="service-row" data-cat="video">
         <div class="service-num">02</div>
-        <div class="service-name">Video</div>
-        <div class="service-desc">YouTube, Reels, TikTok, podcasts, course content. Shoot, edit, motion graphics, AI generation.</div>
+        <div class="service-name" data-i18n="svc2_name">Video</div>
+        <div class="service-desc" data-i18n="svc2_desc">YouTube, Reels, TikTok, podcasts, course content. Shoot, edit, motion graphics, AI generation.</div>
         <div class="service-arrow">→</div>
       </div>
       <div class="service-row" data-cat="ai">
         <div class="service-num">03</div>
-        <div class="service-name">AI Models</div>
-        <div class="service-desc">AI avatars, generated visuals, custom GPTs, Nano Banana workflows, content production at scale.</div>
+        <div class="service-name" data-i18n="svc3_name">AI Models</div>
+        <div class="service-desc" data-i18n="svc3_desc">AI avatars, generated visuals, custom GPTs, Nano Banana workflows, content production at scale.</div>
         <div class="service-arrow">→</div>
       </div>
       <div class="service-row" data-cat="automation">
         <div class="service-num">04</div>
-        <div class="service-name">Automation</div>
-        <div class="service-desc">Make, n8n, custom integrations. Connect tools, eliminate manual work, ship faster.</div>
+        <div class="service-name" data-i18n="svc4_name">Automation</div>
+        <div class="service-desc" data-i18n="svc4_desc">Make, n8n, custom integrations. Connect tools, eliminate manual work, ship faster.</div>
         <div class="service-arrow">→</div>
       </div>
       <div class="service-row" data-cat="social">
         <div class="service-num">05</div>
-        <div class="service-name">Social & Ads</div>
-        <div class="service-desc">Content strategy, organic growth, Meta & Google Ads campaigns.</div>
+        <div class="service-name" data-i18n="svc5_name">Social & Ads</div>
+        <div class="service-desc" data-i18n="svc5_desc">Content strategy, organic growth, Meta & Google Ads campaigns.</div>
         <div class="service-arrow">→</div>
       </div>
     </div>
@@ -985,8 +1014,8 @@
   <!-- CONTACT -->
   <section id="contact">
     <div class="contact">
-      <div class="section-num reveal">02 / Contact</div>
-      <h2 class="contact-title reveal">Let's <em>build</em></h2>
+      <div class="section-num reveal" data-i18n="contact_kicker">02 / Contact</div>
+      <h2 class="contact-title reveal" data-i18n="contact_title">Let's <em>build</em></h2>
 
       <div class="contact-grid reveal">
         <a href="https://wa.me/48575496452" target="_blank" rel="noopener" class="contact-link">
@@ -1012,7 +1041,7 @@
         </a>
         <a href="https://zovu.pl" target="_blank" rel="noopener" class="contact-link">
           <div>
-            <div class="contact-label">Agency</div>
+            <div class="contact-label" data-i18n="contact_agency">Agency</div>
             <div class="contact-value">zovu.pl</div>
           </div>
           <div class="contact-arrow">↗</div>
@@ -1029,29 +1058,29 @@
         <span>ZOVU</span>
       </a>
       <div>© 2026 · ZAH</div>
-      <div>Katowice → Worldwide</div>
+      <div data-i18n="hero_location">Katowice → Worldwide</div>
     </div>
   </footer>
 
   <!-- PORTFOLIO (category views) -->
   <div class="portfolio" id="portfolio">
     <div class="pf-head">
-      <button class="pf-back" onclick="closeCategory()">← Home</button>
+      <button class="pf-back" onclick="closeCategory()"><span data-i18n="pf_home">← Home</span></button>
       <div class="pf-tabs">
-        <button class="pf-tab" data-cat="websites">Websites</button>
-        <button class="pf-tab" data-cat="video">Video</button>
-        <button class="pf-tab" data-cat="ai">AI Models</button>
-        <button class="pf-tab" data-cat="automation">Automation</button>
-        <button class="pf-tab" data-cat="social">Social &amp; Ads</button>
+        <button class="pf-tab" data-cat="websites" data-i18n="tab_websites">Websites</button>
+        <button class="pf-tab" data-cat="video" data-i18n="tab_video">Video</button>
+        <button class="pf-tab" data-cat="ai" data-i18n="tab_ai">AI Models</button>
+        <button class="pf-tab" data-cat="automation" data-i18n="tab_automation">Automation</button>
+        <button class="pf-tab" data-cat="social" data-i18n="tab_social">Social &amp; Ads</button>
       </div>
     </div>
 
     <!-- WEBSITES -->
     <div class="pf-panel" data-cat="websites">
       <div class="pf-panel-head">
-        <div class="section-num">Websites</div>
-        <h2 class="section-title">Sites I've <em>shipped</em></h2>
-        <div class="pf-panel-aside">Tap any to open it live. More on request.</div>
+        <div class="section-num" data-i18n="tab_websites">Websites</div>
+        <h2 class="section-title" data-i18n="pf_web_title">Sites I've <em>shipped</em></h2>
+        <div class="pf-panel-aside" data-i18n="pf_web_aside">Tap any to open it live. More on request.</div>
       </div>
       <div class="works-grid">
         <a href="https://adekvatpotolki.netlify.app" target="_blank" rel="noopener" class="work-card">
@@ -1141,36 +1170,36 @@
     <!-- VIDEO -->
     <div class="pf-panel" data-cat="video">
       <div class="pf-soon">
-        <div class="section-num">Video</div>
-        <h2 class="section-title">Coming <em>soon</em></h2>
-        <p>Showreel, edits and motion work are being packed up. Drop me a line for samples in the meantime.</p>
+        <div class="section-num" data-i18n="tab_video">Video</div>
+        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
+        <p data-i18n="soon_video">Showreel, edits and motion work are being packed up. Drop me a line for samples in the meantime.</p>
       </div>
     </div>
 
     <!-- AI MODELS -->
     <div class="pf-panel" data-cat="ai">
       <div class="pf-soon">
-        <div class="section-num">AI Models</div>
-        <h2 class="section-title">Coming <em>soon</em></h2>
-        <p>AI avatars and generated visuals are on the way. Ask me for current examples.</p>
+        <div class="section-num" data-i18n="tab_ai">AI Models</div>
+        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
+        <p data-i18n="soon_ai">AI avatars and generated visuals are on the way. Ask me for current examples.</p>
       </div>
     </div>
 
     <!-- AUTOMATION -->
     <div class="pf-panel" data-cat="automation">
       <div class="pf-soon">
-        <div class="section-num">Automation</div>
-        <h2 class="section-title">Coming <em>soon</em></h2>
-        <p>Make &amp; n8n builds will land here soon. Reach out to see what I've shipped.</p>
+        <div class="section-num" data-i18n="tab_automation">Automation</div>
+        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
+        <p data-i18n="soon_automation">Make &amp; n8n builds will land here soon. Reach out to see what I've shipped.</p>
       </div>
     </div>
 
     <!-- SOCIAL & ADS -->
     <div class="pf-panel" data-cat="social">
       <div class="pf-soon">
-        <div class="section-num">Social &amp; Ads</div>
-        <h2 class="section-title">Coming <em>soon</em></h2>
-        <p>Campaigns and content case studies are in the works. Message me for results.</p>
+        <div class="section-num" data-i18n="tab_social">Social &amp; Ads</div>
+        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
+        <p data-i18n="soon_social">Campaigns and content case studies are in the works. Message me for results.</p>
       </div>
     </div>
   </div>
@@ -1239,6 +1268,95 @@
 
     // Esc closes the portfolio view
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCategory(); });
+
+    // ───── i18n: EN / PL / RU ─────
+    const I18N = {
+      en: {
+        nav_contact: "Contact", nav_about: "About", nav_works: "Works", nav_services: "Services",
+        hero_eyebrow: "Creator @ ZOVU · Est. 2024",
+        hero_sub: "Sites <span>·</span> Video <span>·</span> AI <span>·</span> Content",
+        hero_location: "Katowice → Worldwide", hero_scroll: "Scroll",
+        stat_views: "Views", stat_followers: "Followers", stat_adspend: "Ad Spend", stat_years: "Years",
+        svc_kicker: "01 / Services", svc_title: "What I <em>build</em>",
+        svc_aside: "At ZOVU I handle the build side. My brother runs strategy and ads — I make the things you actually see and use.",
+        svc1_name: "Websites", svc1_desc: "Landing pages, business sites, e-commerce. WordPress or hand-coded. Built fast, mobile-first, converting.",
+        svc2_name: "Video", svc2_desc: "YouTube, Reels, TikTok, podcasts, course content. Shoot, edit, motion graphics, AI generation.",
+        svc3_name: "AI Models", svc3_desc: "AI avatars, generated visuals, custom GPTs, Nano Banana workflows, content production at scale.",
+        svc4_name: "Automation", svc4_desc: "Make, n8n, custom integrations. Connect tools, eliminate manual work, ship faster.",
+        svc5_name: "Social & Ads", svc5_desc: "Content strategy, organic growth, Meta & Google Ads campaigns.",
+        contact_kicker: "02 / Contact", contact_title: "Let's <em>build</em>", contact_agency: "Agency",
+        tab_websites: "Websites", tab_video: "Video", tab_ai: "AI Models", tab_automation: "Automation", tab_social: "Social & Ads",
+        pf_home: "← Home", pf_web_title: "Sites I've <em>shipped</em>", pf_web_aside: "Tap any to open it live. More on request.",
+        pf_soon_title: "Coming <em>soon</em>",
+        soon_video: "Showreel, edits and motion work are being packed up. Drop me a line for samples in the meantime.",
+        soon_ai: "AI avatars and generated visuals are on the way. Ask me for current examples.",
+        soon_automation: "Make & n8n builds will land here soon. Reach out to see what I've shipped.",
+        soon_social: "Campaigns and content case studies are in the works. Message me for results."
+      },
+      pl: {
+        nav_contact: "Kontakt", nav_about: "O mnie", nav_works: "Prace", nav_services: "Usługi",
+        hero_eyebrow: "Twórca @ ZOVU · Od 2024",
+        hero_sub: "Strony <span>·</span> Wideo <span>·</span> AI <span>·</span> Content",
+        hero_location: "Katowice → Cały świat", hero_scroll: "Przewiń",
+        stat_views: "Wyświetleń", stat_followers: "Obserwujących", stat_adspend: "Budżet reklam", stat_years: "Lata",
+        svc_kicker: "01 / Usługi", svc_title: "Co <em>tworzę</em>",
+        svc_aside: "W ZOVU odpowiadam za produkcję. Mój brat prowadzi strategię i reklamy — ja tworzę to, co realnie widzisz i czego używasz.",
+        svc1_name: "Strony", svc1_desc: "Landing page, strony firmowe, e-commerce. WordPress lub kod własny. Szybkie, mobile-first, konwertujące.",
+        svc2_name: "Wideo", svc2_desc: "YouTube, Reels, TikTok, podcasty, materiały kursowe. Zdjęcia, montaż, motion graphics, generowanie AI.",
+        svc3_name: "Modele AI", svc3_desc: "Awatary AI, generowane grafiki, własne GPT, workflowy Nano Banana, produkcja treści na dużą skalę.",
+        svc4_name: "Automatyzacja", svc4_desc: "Make, n8n, własne integracje. Łączę narzędzia, eliminuję ręczną pracę, przyspieszam.",
+        svc5_name: "Social & reklamy", svc5_desc: "Strategia treści, wzrost organiczny, kampanie Meta i Google Ads.",
+        contact_kicker: "02 / Kontakt", contact_title: "Zbudujmy <em>to</em>", contact_agency: "Agencja",
+        tab_websites: "Strony", tab_video: "Wideo", tab_ai: "Modele AI", tab_automation: "Automatyzacja", tab_social: "Social & reklamy",
+        pf_home: "← Start", pf_web_title: "Strony, które <em>zrobiłem</em>", pf_web_aside: "Kliknij, by otworzyć na żywo. Więcej na życzenie.",
+        pf_soon_title: "Już <em>wkrótce</em>",
+        soon_video: "Showreel, montaże i motion są w przygotowaniu. Napisz po próbki w międzyczasie.",
+        soon_ai: "Awatary AI i generowane grafiki są w drodze. Zapytaj o aktualne przykłady.",
+        soon_automation: "Buildy Make i n8n pojawią się wkrótce. Odezwij się, by zobaczyć, co zrobiłem.",
+        soon_social: "Kampanie i case studies treści są w przygotowaniu. Napisz po wyniki."
+      },
+      ru: {
+        nav_contact: "Контакты", nav_about: "Обо мне", nav_works: "Работы", nav_services: "Услуги",
+        hero_eyebrow: "Криэйтор @ ZOVU · С 2024",
+        hero_sub: "Сайты <span>·</span> Видео <span>·</span> AI <span>·</span> Контент",
+        hero_location: "Катовице → По всему миру", hero_scroll: "Вниз",
+        stat_views: "Просмотров", stat_followers: "Подписчиков", stat_adspend: "Бюджет рекламы", stat_years: "Года",
+        svc_kicker: "01 / Услуги", svc_title: "Что я <em>делаю</em>",
+        svc_aside: "В ZOVU я отвечаю за продакшн. Брат ведёт стратегию и рекламу — я делаю то, что вы реально видите и чем пользуетесь.",
+        svc1_name: "Сайты", svc1_desc: "Лендинги, корпоративные сайты, e-commerce. WordPress или ручной код. Быстро, mobile-first, с конверсией.",
+        svc2_name: "Видео", svc2_desc: "YouTube, Reels, TikTok, подкасты, контент для курсов. Съёмка, монтаж, моушн-графика, AI-генерация.",
+        svc3_name: "AI-модели", svc3_desc: "AI-аватары, сгенерированная графика, кастомные GPT, воркфлоу Nano Banana, контент в больших объёмах.",
+        svc4_name: "Автоматизация", svc4_desc: "Make, n8n, кастомные интеграции. Связываю инструменты, убираю ручную работу, ускоряю.",
+        svc5_name: "Соцсети и реклама", svc5_desc: "Контент-стратегия, органический рост, кампании Meta и Google Ads.",
+        contact_kicker: "02 / Контакты", contact_title: "Давай <em>строить</em>", contact_agency: "Агентство",
+        tab_websites: "Сайты", tab_video: "Видео", tab_ai: "AI-модели", tab_automation: "Автоматизация", tab_social: "Соцсети и реклама",
+        pf_home: "← Главная", pf_web_title: "Сайты, которые я <em>сделал</em>", pf_web_aside: "Нажми, чтобы открыть вживую. Больше — по запросу.",
+        pf_soon_title: "Скоро <em>будет</em>",
+        soon_video: "Шоурил, монтажи и моушн готовятся. Пока — напиши за примерами.",
+        soon_ai: "AI-аватары и графика на подходе. Спроси текущие примеры.",
+        soon_automation: "Сборки на Make и n8n скоро будут здесь. Напиши, чтобы посмотреть готовое.",
+        soon_social: "Кампании и кейсы по контенту в работе. Напиши за результатами."
+      }
+    };
+
+    function applyLang(lang) {
+      if (!I18N[lang]) lang = 'en';
+      const dict = I18N[lang];
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const v = dict[el.getAttribute('data-i18n')];
+        if (v != null) el.innerHTML = v;
+      });
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+      try { localStorage.setItem('zahLang', lang); } catch (e) {}
+    }
+    document.querySelectorAll('.lang-btn').forEach(b =>
+      b.addEventListener('click', () => applyLang(b.dataset.lang)));
+
+    let savedLang = null;
+    try { savedLang = localStorage.getItem('zahLang'); } catch (e) {}
+    const navLang = (navigator.language || 'en').slice(0, 2).toLowerCase();
+    applyLang(savedLang || (['pl', 'ru'].includes(navLang) ? navLang : 'en'));
   </script>
 
 </body>
