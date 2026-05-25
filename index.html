@@ -440,43 +440,6 @@
       margin: 0 auto;
     }
 
-    /* running strip of work previews under the portfolio title */
-    .pf-strip {
-      margin: 44px 0 8px;
-      overflow: hidden;
-      cursor: pointer;
-      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-    }
-    .pf-strip-track {
-      display: flex;
-      gap: 16px;
-      width: max-content;
-      animation: pfscroll 45s linear infinite;
-    }
-    .pf-strip:hover .pf-strip-track { animation-play-state: paused; }
-    .pf-strip-img {
-      width: 240px;
-      height: 150px;
-      flex-shrink: 0;
-      object-fit: cover;
-      object-position: top center;
-      border-radius: 10px;
-      border: 1px solid var(--line);
-      filter: grayscale(0.35) brightness(0.8);
-      transition: filter 0.4s ease, transform 0.4s ease;
-    }
-    .pf-strip:hover .pf-strip-img { filter: grayscale(0) brightness(1); }
-    .pf-strip-img:hover { transform: translateY(-5px); }
-    @keyframes pfscroll {
-      from { transform: translateX(0); }
-      to { transform: translateX(-50%); }
-    }
-    @media (max-width: 600px) {
-      .pf-strip-img { width: 180px; height: 112px; }
-      .pf-strip-track { animation-duration: 32s; }
-    }
-
     .service-row {
       display: grid;
       grid-template-columns: 80px 1fr 2fr 60px;
@@ -686,6 +649,28 @@
     .work-card:hover .work-shot img {
       transform: scale(1.06);
       filter: grayscale(0) brightness(1);
+    }
+
+    /* graphics/posts tiles */
+    .post-card { display: block; overflow: hidden; border-radius: 12px; }
+    .post-img {
+      width: 100%;
+      height: 230px;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      filter: grayscale(0.18) brightness(0.88);
+      transition: transform 1.2s cubic-bezier(.16,1,.3,1), filter 0.5s, border-color 0.4s;
+    }
+    .post-card:hover .post-img {
+      transform: scale(1.05);
+      filter: grayscale(0) brightness(1);
+      border-color: var(--accent);
+    }
+    @media (max-width: 600px) {
+      .post-img { height: 168px; }
     }
 
     /* ───── PORTFOLIO (category views) ───── */
@@ -1041,29 +1026,6 @@
       </div>
     </div>
 
-    <div class="pf-strip reveal" onclick="openCategory('websites')">
-      <div class="pf-strip-track">
-        <img src="shot_fightmode.png" alt="" class="pf-strip-img">
-        <img src="shot_shaurma.png" alt="" class="pf-strip-img">
-        <img src="shot_beegelato.png" alt="" class="pf-strip-img">
-        <img src="shot_maya.png" alt="" class="pf-strip-img">
-        <img src="shot_marketing.png" alt="" class="pf-strip-img">
-        <img src="shot_jewelry.png" alt="" class="pf-strip-img">
-        <img src="shot_gucio.png" alt="" class="pf-strip-img">
-        <img src="shot_pickactive.png" alt="" class="pf-strip-img">
-        <img src="shot_adekvat.png" alt="" class="pf-strip-img">
-        <img src="shot_fightmode.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_shaurma.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_beegelato.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_maya.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_marketing.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_jewelry.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_gucio.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_pickactive.png" alt="" class="pf-strip-img" aria-hidden="true">
-        <img src="shot_adekvat.png" alt="" class="pf-strip-img" aria-hidden="true">
-      </div>
-    </div>
-
     <div class="services reveal">
       <div class="service-row" data-cat="websites">
         <div class="service-num">01</div>
@@ -1079,8 +1041,8 @@
       </div>
       <div class="service-row" data-cat="ai">
         <div class="service-num">03</div>
-        <div class="service-name" data-i18n="svc3_name">AI Models</div>
-        <div class="service-desc" data-i18n="svc3_desc">AI avatars, generated visuals, custom GPTs, Nano Banana workflows, content production at scale.</div>
+        <div class="service-name" data-i18n="svc3_name">Graphics</div>
+        <div class="service-desc" data-i18n="svc3_desc">Social posts, ad creatives, YouTube thumbnails, brand graphics — bold, on-brand, scroll-stopping.</div>
         <div class="service-arrow">→</div>
       </div>
       <div class="service-row svc-static">
@@ -1188,7 +1150,7 @@
       <div class="pf-tabs">
         <button class="pf-tab" data-cat="websites" data-i18n="tab_websites">Websites</button>
         <button class="pf-tab" data-cat="video" data-i18n="tab_video">Video</button>
-        <button class="pf-tab" data-cat="ai" data-i18n="tab_ai">AI Models</button>
+        <button class="pf-tab" data-cat="ai" data-i18n="tab_ai">Graphics</button>
       </div>
     </div>
 
@@ -1297,12 +1259,27 @@
       </div>
     </div>
 
-    <!-- AI MODELS -->
+    <!-- GRAPHICS -->
     <div class="pf-panel" data-cat="ai">
-      <div class="pf-soon">
-        <div class="section-num" data-i18n="tab_ai">AI Models</div>
-        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
-        <p data-i18n="soon_ai">AI avatars and generated visuals are on the way. Ask me for current examples.</p>
+      <div class="pf-panel-head">
+        <div class="section-num" data-i18n="tab_ai">Graphics</div>
+        <h2 class="section-title" data-i18n="pf_gfx_title">Graphics &amp; <em>posts</em></h2>
+        <div class="pf-panel-aside" data-i18n="pf_gfx_aside">Click any to open full size.</div>
+      </div>
+      <div class="works-grid">
+        <a href="post_beegelato.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_beegelato.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_pickactive.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_pickactive.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_upwork.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_upwork.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_marketing.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_marketing.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_greenproject.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_greenproject.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_wymiana.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_wymiana.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_creatine.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_creatine.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_yt1.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_yt1.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_yt2.jpg" target="_blank" rel="noopener" class="work-card post-card"><img src="post_yt2.jpg" alt="" loading="lazy" class="post-img"></a>
+      </div>
+      <div class="pf-pager">
+        <button class="pf-prev" aria-label="Previous">‹</button>
+        <button class="pf-next" aria-label="Next">›</button>
       </div>
     </div>
 
@@ -1372,7 +1349,8 @@
     (function () {
       const shots = {
         websites: ['shot_fightmode.png', 'shot_beegelato.png', 'shot_maya.png', 'shot_shaurma.png'],
-        video: [], ai: []
+        video: [],
+        ai: ['post_beegelato.jpg', 'post_pickactive.jpg', 'post_upwork.jpg', 'post_greenproject.jpg']
       };
       const preview = document.createElement('div');
       preview.className = 'svc-preview';
@@ -1430,11 +1408,11 @@
     (function () {
       if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return; // skip touch (native momentum)
       let target = window.scrollY, raf = null;
-      const ease = 0.085;
+      const ease = 0.065; // lower = more float / longer glide (artalto-style)
       const maxY = () => document.documentElement.scrollHeight - window.innerHeight;
       function tick() {
         const cur = window.scrollY;
-        if (Math.abs(target - cur) < 0.5) { window.scrollTo(0, target); raf = null; return; }
+        if (Math.abs(target - cur) < 0.4) { window.scrollTo(0, target); raf = null; return; }
         window.scrollTo(0, cur + (target - cur) * ease);
         raf = requestAnimationFrame(tick);
       }
@@ -1442,7 +1420,8 @@
         if (portfolio.classList.contains('open') || e.ctrlKey) return; // let overlay scroll / allow zoom
         e.preventDefault();
         if (raf === null) target = window.scrollY; // re-sync after any non-wheel scroll
-        target = Math.max(0, Math.min(target + e.deltaY * (e.deltaMode === 1 ? 16 : 1), maxY()));
+        const step = e.deltaY * (e.deltaMode === 1 ? 16 : 1) * 1.15; // a touch more momentum
+        target = Math.max(0, Math.min(target + step, maxY()));
         if (raf === null) raf = requestAnimationFrame(tick);
       }, { passive: false });
     })();
@@ -1459,12 +1438,13 @@
         svc_aside: "At ZOVU I handle the build side. My brother runs strategy and ads — I make the things you actually see and use.",
         svc1_name: "Websites", svc1_desc: "Landing pages, business sites, e-commerce. WordPress or hand-coded. Built fast, mobile-first, converting.",
         svc2_name: "Video", svc2_desc: "YouTube, Reels, TikTok, podcasts, course content. Shoot, edit, motion graphics, AI generation.",
-        svc3_name: "AI Models", svc3_desc: "AI avatars, generated visuals, custom GPTs, Nano Banana workflows, content production at scale.",
+        svc3_name: "Graphics", svc3_desc: "Social posts, ad creatives, YouTube thumbnails, brand graphics — bold, on-brand, scroll-stopping.",
         svc4_name: "Automation", svc4_desc: "Make, n8n, custom integrations. Connect tools, eliminate manual work, ship faster.",
         svc5_name: "Social & Ads", svc5_desc: "Content strategy, organic growth, Meta & Google Ads campaigns.",
         contact_kicker: "02 / Contact", contact_title: "Let's <em>build</em>", contact_agency: "Agency",
-        tab_websites: "Websites", tab_video: "Video", tab_ai: "AI Models", tab_automation: "Automation", tab_social: "Social & Ads",
+        tab_websites: "Websites", tab_video: "Video", tab_ai: "Graphics", tab_automation: "Automation", tab_social: "Social & Ads",
         pf_home: "← Home", pf_web_title: "Sites I've <em>shipped</em>", pf_web_aside: "Tap any to open it live. More on request.",
+        pf_gfx_title: "Graphics &amp; <em>posts</em>", pf_gfx_aside: "Click any to open full size.",
         pf_soon_title: "Coming <em>soon</em>",
         soon_video: "Showreel, edits and motion work are being packed up. Drop me a line for samples in the meantime.",
         soon_ai: "AI avatars and generated visuals are on the way. Ask me for current examples.",
@@ -1481,12 +1461,13 @@
         svc_aside: "W ZOVU odpowiadam za produkcję. Mój brat prowadzi strategię i reklamy — ja tworzę to, co realnie widzisz i czego używasz.",
         svc1_name: "Strony", svc1_desc: "Landing page, strony firmowe, e-commerce. WordPress lub kod własny. Szybkie, mobile-first, konwertujące.",
         svc2_name: "Wideo", svc2_desc: "YouTube, Reels, TikTok, podcasty, materiały kursowe. Zdjęcia, montaż, motion graphics, generowanie AI.",
-        svc3_name: "Modele AI", svc3_desc: "Awatary AI, generowane grafiki, własne GPT, workflowy Nano Banana, produkcja treści na dużą skalę.",
+        svc3_name: "Grafika", svc3_desc: "Posty social media, kreacje reklamowe, miniatury YouTube, grafika marki — mocne i spójne.",
         svc4_name: "Automatyzacja", svc4_desc: "Make, n8n, własne integracje. Łączę narzędzia, eliminuję ręczną pracę, przyspieszam.",
         svc5_name: "Social media i reklamy", svc5_desc: "Strategia treści, wzrost organiczny, kampanie Meta i Google Ads.",
         contact_kicker: "02 / Kontakt", contact_title: "Zbudujmy <em>to</em>", contact_agency: "Agencja",
-        tab_websites: "Strony", tab_video: "Wideo", tab_ai: "Modele AI", tab_automation: "Automatyzacja", tab_social: "Social media i reklamy",
+        tab_websites: "Strony", tab_video: "Wideo", tab_ai: "Grafika", tab_automation: "Automatyzacja", tab_social: "Social media i reklamy",
         pf_home: "← Start", pf_web_title: "Strony, które <em>zrobiłem</em>", pf_web_aside: "Kliknij, by otworzyć na żywo. Więcej na życzenie.",
+        pf_gfx_title: "Grafika i <em>posty</em>", pf_gfx_aside: "Kliknij, by otworzyć w pełnym rozmiarze.",
         pf_soon_title: "Już <em>wkrótce</em>",
         soon_video: "Showreel, montaże i motion są w przygotowaniu. Napisz po próbki w międzyczasie.",
         soon_ai: "Awatary AI i generowane grafiki są w drodze. Zapytaj o aktualne przykłady.",
@@ -1503,12 +1484,13 @@
         svc_aside: "В ZOVU я отвечаю за продакшн. Брат ведёт стратегию и рекламу — я делаю то, что вы реально видите и чем пользуетесь.",
         svc1_name: "Сайты", svc1_desc: "Лендинги, корпоративные сайты, e-commerce. WordPress или ручной код. Быстро, mobile-first, с конверсией.",
         svc2_name: "Видео", svc2_desc: "YouTube, Reels, TikTok, подкасты, контент для курсов. Съёмка, монтаж, моушн-графика, AI-генерация.",
-        svc3_name: "AI-модели", svc3_desc: "AI-аватары, сгенерированная графика, кастомные GPT, воркфлоу Nano Banana, контент в больших объёмах.",
+        svc3_name: "Графика", svc3_desc: "Посты для соцсетей, рекламные креативы, обложки YouTube, фирменная графика — ярко и в стиле бренда.",
         svc4_name: "Автоматизация", svc4_desc: "Make, n8n, кастомные интеграции. Связываю инструменты, убираю ручную работу, ускоряю.",
         svc5_name: "Соцсети и реклама", svc5_desc: "Контент-стратегия, органический рост, кампании Meta и Google Ads.",
         contact_kicker: "02 / Контакты", contact_title: "Давай <em>строить</em>", contact_agency: "Агентство",
-        tab_websites: "Сайты", tab_video: "Видео", tab_ai: "AI-модели", tab_automation: "Автоматизация", tab_social: "Соцсети и реклама",
+        tab_websites: "Сайты", tab_video: "Видео", tab_ai: "Графика", tab_automation: "Автоматизация", tab_social: "Соцсети и реклама",
         pf_home: "← Главная", pf_web_title: "Сайты, которые я <em>сделал</em>", pf_web_aside: "Нажми, чтобы открыть вживую. Больше — по запросу.",
+        pf_gfx_title: "Графика и <em>посты</em>", pf_gfx_aside: "Нажми, чтобы открыть в полном размере.",
         pf_soon_title: "Скоро <em>будет</em>",
         soon_video: "Шоурил, монтажи и моушн готовятся. Пока — напиши за примерами.",
         soon_ai: "AI-аватары и графика на подходе. Спроси текущие примеры.",
