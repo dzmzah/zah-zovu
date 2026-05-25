@@ -752,6 +752,26 @@
       filter: grayscale(0) brightness(1);
       border-color: var(--accent);
     }
+    /* phone: swipe carousel — 2x2 posts per page (4:5 tiles, creatine hidden) */
+    @media (max-width: 600px) {
+      .posts-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(2, auto);
+        grid-auto-columns: calc(50% - 6px);
+        column-gap: 12px;
+        row-gap: 12px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .posts-grid::-webkit-scrollbar { display: none; }
+      .posts-grid .post-card { margin-bottom: 0; }
+      .posts-grid .post-card:nth-child(4n+1) { scroll-snap-align: start; }
+      .posts-grid .post-card:nth-child(9) { display: none; }
+      .posts-grid .post-img { aspect-ratio: 4 / 5; height: auto; object-fit: cover; }
+    }
 
     /* video reels wall — 3 per row (3x3) */
     .video-grid {
@@ -1428,13 +1448,13 @@
       <div class="posts-grid">
         <a href="post_beegelato.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_beegelato.jpg" alt="" loading="lazy" class="post-img"></a>
         <a href="post_pickactive.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_pickactive.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_wymiana.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_wymiana.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_greenproject.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_greenproject.jpg" alt="" loading="lazy" class="post-img"></a>
         <a href="post_upwork.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_upwork.jpg" alt="" loading="lazy" class="post-img"></a>
         <a href="post_marketing.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_marketing.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_greenproject.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_greenproject.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_wymiana.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_wymiana.jpg" alt="" loading="lazy" class="post-img"></a>
-        <a href="post_creatine.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_creatine.jpg" alt="" loading="lazy" class="post-img"></a>
         <a href="post_yt1.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_yt1.jpg" alt="" loading="lazy" class="post-img"></a>
         <a href="post_yt2.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_yt2.jpg" alt="" loading="lazy" class="post-img"></a>
+        <a href="post_creatine.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_creatine.jpg" alt="" loading="lazy" class="post-img"></a>
       </div>
     </div>
 
