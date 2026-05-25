@@ -1621,7 +1621,7 @@
     (function () {
       if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return; // skip touch (native momentum)
       let target = window.scrollY, raf = null;
-      const ease = 0.05; // lower = more float / longer glide (artalto-style)
+      const ease = 0.038; // lower = more float / longer glide (artalto-style)
       const maxY = () => document.documentElement.scrollHeight - window.innerHeight;
       function tick() {
         const cur = window.scrollY;
