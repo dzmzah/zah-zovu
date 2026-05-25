@@ -741,6 +741,32 @@
       box-shadow: 0 16px 44px rgba(124,58,237,0.25);
     }
 
+    /* hover → show the item full-size (centered overlay) */
+    .zoom-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.78);
+      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .zoom-overlay.show { opacity: 1; }
+    .zoom-overlay img, .zoom-overlay video {
+      max-width: 88vw;
+      max-height: 88vh;
+      object-fit: contain;
+      border-radius: 10px;
+      box-shadow: 0 30px 90px rgba(0, 0, 0, 0.7);
+      background: #000;
+    }
+    @media (hover: none), (max-width: 900px) { .zoom-overlay { display: none; } }
+
     /* ───── PORTFOLIO (category views) ───── */
     .portfolio {
       position: fixed;
@@ -1461,6 +1487,39 @@
         else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
       });
     });
+
+    // Hover any portfolio item -> show it full-size in a centered overlay
+    (function () {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      const ov = document.createElement('div');
+      ov.className = 'zoom-overlay';
+      const oimg = document.createElement('img');
+      const ovid = document.createElement('video');
+      ovid.muted = true; ovid.loop = true; ovid.playsInline = true;
+      ov.append(oimg, ovid);
+      document.documentElement.appendChild(ov); // outside body zoom
+      const showImg = (src) => { ovid.style.display = 'none'; ovid.pause(); oimg.style.display = 'block'; oimg.src = src; ov.classList.add('show'); };
+      const showVid = (src) => { oimg.style.display = 'none'; ovid.style.display = 'block'; if (ovid.src !== src) ovid.src = src; ovid.currentTime = 0; ovid.play().catch(() => {}); ov.classList.add('show'); };
+      const hide = () => { ov.classList.remove('show'); ovid.pause(); };
+      // posts (open full image)
+      document.querySelectorAll('.post-card').forEach(card => {
+        const full = card.getAttribute('href') || card.querySelector('img')?.src;
+        card.addEventListener('mouseenter', () => showImg(full));
+        card.addEventListener('mouseleave', hide);
+      });
+      // website screenshots
+      document.querySelectorAll('.pf-panel[data-cat="websites"] .work-card').forEach(card => {
+        const img = card.querySelector('.work-shot img');
+        if (!img) return;
+        card.addEventListener('mouseenter', () => showImg(img.src));
+        card.addEventListener('mouseleave', hide);
+      });
+      // video reels (play large, muted)
+      document.querySelectorAll('.video-tile').forEach(v => {
+        v.addEventListener('mouseenter', () => showVid(v.currentSrc || v.getAttribute('src')));
+        v.addEventListener('mouseleave', hide);
+      });
+    })();
 
     // Cursor-following preview that teases the portfolio on category hover
     (function () {
