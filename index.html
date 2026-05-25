@@ -457,53 +457,6 @@
       .service-desc, .service-arrow { display: none; }
     }
 
-    /* ───── CLIENTS ───── */
-    .clients {
-      background: var(--bg-2);
-      padding: 60px 32px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .clients-inner {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
-
-    @media (max-width: 800px) {
-      .clients-inner { grid-template-columns: repeat(2, 1fr); }
-    }
-
-    .client {
-      padding: 32px 24px;
-      border-right: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      text-align: center;
-      transition: background 0.3s;
-    }
-
-    .client:hover { background: rgba(124, 58, 237, 0.08); }
-
-    .client-name {
-      font-family: var(--display);
-      font-weight: 600;
-      font-size: 18px;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-
-    .client-cat {
-      font-family: var(--mono);
-      font-size: 10px;
-      color: var(--fg-dim);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      margin-top: 6px;
-    }
-
     /* ───── WORKS GRID (BROWSER CARDS) ───── */
     .works-grid {
       max-width: 1400px;
@@ -870,44 +823,6 @@
       </div>
     </div>
   </section>
-
-  <!-- CLIENTS / PARTNERS -->
-  <div class="clients">
-    <div class="clients-inner">
-      <div class="client">
-        <div class="client-name">Adekvat</div>
-        <div class="client-cat">Ceilings · BY</div>
-      </div>
-      <div class="client">
-        <div class="client-name">Pickactive</div>
-        <div class="client-cat">Fitness · PL</div>
-      </div>
-      <div class="client">
-        <div class="client-name">Gucio Bar</div>
-        <div class="client-cat">Hospitality · PL</div>
-      </div>
-      <div class="client">
-        <div class="client-name">Mag Shaurma</div>
-        <div class="client-cat">Food · PL</div>
-      </div>
-      <div class="client">
-        <div class="client-name">Jewelry KTW</div>
-        <div class="client-cat">Retail · PL</div>
-      </div>
-      <div class="client">
-        <div class="client-name">Maya Gold</div>
-        <div class="client-cat">Jewelry · PL</div>
-      </div>
-      <div class="client">
-        <div class="client-name">Marketing AI</div>
-        <div class="client-cat">B2B · PL</div>
-      </div>
-      <div class="client">
-        <div class="client-name">Beegelato</div>
-        <div class="client-cat">Food · SK</div>
-      </div>
-    </div>
-  </div>
 
   <!-- WORKS -->
   <section id="works">
