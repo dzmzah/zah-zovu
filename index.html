@@ -731,7 +731,7 @@
     }
     @media (max-width: 980px) { .posts-grid { column-count: 2; } }
     .post-page { display: contents; } /* desktop: transparent → masonry */
-    .post-page--phone { display: none; } /* phone-only page, hidden on desktop */
+    .posts-grid .post-card--phone { display: none; } /* phone-only cards, hidden on desktop */
     .post-card {
       display: block;
       break-inside: avoid;
@@ -773,8 +773,7 @@
         flex: 0 0 100%;
         scroll-snap-align: start;
       }
-      .post-page--extra { display: none; }
-      .post-page--phone { display: grid; }
+      .posts-grid .post-card--phone { display: block; }
       .post-card { margin-bottom: 0; }
     }
 
@@ -1462,15 +1461,10 @@
           <a href="post_marketing.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_marketing.jpg" alt="" loading="lazy" class="post-img"></a>
           <a href="post_yt1.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_yt1.jpg" alt="" loading="lazy" class="post-img"></a>
           <a href="post_yt2.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_yt2.jpg" alt="" loading="lazy" class="post-img"></a>
-        </div>
-        <div class="post-page post-page--extra">
           <a href="post_creatine.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_creatine.jpg" alt="" loading="lazy" class="post-img"></a>
-        </div>
-        <div class="post-page post-page--phone">
-          <a href="post_creatine.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_creatine.jpg" alt="" loading="lazy" class="post-img"></a>
-          <a href="post_upwork2.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_upwork2.jpg" alt="" loading="lazy" class="post-img"></a>
-          <a href="post_yturzednik.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_yturzednik.jpg" alt="" loading="lazy" class="post-img"></a>
-          <a href="post_ytpalant.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_ytpalant.jpg" alt="" loading="lazy" class="post-img"></a>
+          <a href="post_upwork2.jpg" target="_blank" rel="noopener" class="post-card post-card--phone"><img src="post_upwork2.jpg" alt="" loading="lazy" class="post-img"></a>
+          <a href="post_yturzednik.jpg" target="_blank" rel="noopener" class="post-card post-card--phone"><img src="post_yturzednik.jpg" alt="" loading="lazy" class="post-img"></a>
+          <a href="post_ytpalant.jpg" target="_blank" rel="noopener" class="post-card post-card--phone"><img src="post_ytpalant.jpg" alt="" loading="lazy" class="post-img"></a>
         </div>
       </div>
     </div>
