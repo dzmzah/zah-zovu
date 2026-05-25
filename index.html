@@ -504,98 +504,110 @@
       margin-top: 6px;
     }
 
-    /* ───── WORKS GRID (FIGHTCARDS) ───── */
+    /* ───── WORKS GRID (BROWSER CARDS) ───── */
     .works-grid {
       max-width: 1400px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
     }
 
-    @media (max-width: 800px) {
+    @media (max-width: 980px) {
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
       .works-grid { grid-template-columns: 1fr; }
     }
 
     .work-card {
-      position: relative;
-      aspect-ratio: 4 / 3;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.4s cubic-bezier(.16,1,.3,1);
+    }
+    .work-card:hover { transform: translateY(-6px); }
+
+    .work-browser {
+      border-radius: 12px;
       overflow: hidden;
-      background: var(--bg-2);
       border: 1px solid var(--line);
-      transition: all 0.4s ease;
-      cursor: pointer;
+      background: #161616;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      transition: border-color 0.4s, box-shadow 0.4s;
     }
-
-    .work-card:hover {
+    .work-card:hover .work-browser {
       border-color: var(--accent);
-      transform: translateY(-4px);
+      box-shadow: 0 18px 50px rgba(124,58,237,0.28);
     }
 
-    .work-card iframe {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      transform: scale(0.5);
-      transform-origin: 0 0;
-      width: 200%;
-      height: 200%;
-      pointer-events: none;
-      filter: grayscale(0.4) brightness(0.7);
-      transition: filter 0.5s;
-    }
-
-    .work-card:hover iframe {
-      filter: grayscale(0) brightness(0.9);
-    }
-
-    .work-overlay {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.95) 100%);
+    .work-bar {
+      background: #1c1c1c;
+      padding: 9px 13px;
       display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 28px;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid #000;
     }
-
-    .work-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
+    .work-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .work-dot:nth-child(1) { background: #ff5f56; }
+    .work-dot:nth-child(2) { background: #ffbd2e; }
+    .work-dot:nth-child(3) { background: #27c93f; }
+    .work-url {
+      margin-left: 8px;
+      flex: 1;
+      text-align: center;
       font-family: var(--mono);
       font-size: 11px;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      letter-spacing: 0.02em;
       color: var(--fg-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .work-num {
-      background: var(--accent);
-      color: #fff;
-      padding: 4px 10px;
-      font-weight: 600;
+    .work-shot {
+      height: 230px;
+      overflow: hidden;
+      background: var(--bg-2);
+    }
+    .work-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 1.4s cubic-bezier(.16,1,.3,1), filter 0.5s;
+      filter: grayscale(0.25) brightness(0.85);
+    }
+    .work-card:hover .work-shot img {
+      transform: scale(1.06);
+      filter: grayscale(0) brightness(1);
     }
 
-    .work-bottom .work-name {
+    .work-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 16px 4px 0;
+      gap: 12px;
+    }
+    .work-name {
       font-family: var(--display);
       font-weight: 700;
-      font-size: clamp(28px, 3.2vw, 44px);
+      font-size: clamp(18px, 2vw, 24px);
       line-height: 1;
       letter-spacing: -0.01em;
       text-transform: uppercase;
-      margin-bottom: 8px;
     }
-
-    .work-bottom .work-cat {
+    .work-cat {
       font-family: var(--mono);
-      font-size: 11px;
+      font-size: 10px;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--accent-2);
+      text-align: right;
+      white-space: nowrap;
     }
 
     /* ───── MARQUEE ───── */
@@ -936,127 +948,127 @@
 
     <div class="works-grid reveal">
       <a href="https://adekvatpotolki.netlify.app" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://adekvatpotolki.netlify.app" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>BY · 2025</span>
-            <span class="work-num">01</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">adekvatpotolki.pl</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Adekvat</div>
-            <div class="work-cat">Website · Ceilings</div>
-          </div>
+          <div class="work-shot"><img src="shot_adekvat.png" alt="Adekvat" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Adekvat</div>
+          <div class="work-cat">Website · Ceilings</div>
         </div>
       </a>
 
       <a href="https://pickactive.pl" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://pickactive.pl" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>PL · 2025</span>
-            <span class="work-num">02</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">pickactive.pl</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Pickactive</div>
-            <div class="work-cat">Website · Fitness</div>
-          </div>
+          <div class="work-shot"><img src="shot_pickactive.png" alt="Pickactive" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Pickactive</div>
+          <div class="work-cat">Website · Fitness</div>
         </div>
       </a>
 
       <a href="https://inca1122.github.io/gucio_bar/index.html" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://inca1122.github.io/gucio_bar/index.html" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>PL · 2025</span>
-            <span class="work-num">03</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">gucio.bar</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Gucio Bar</div>
-            <div class="work-cat">Website · Hospitality</div>
-          </div>
+          <div class="work-shot"><img src="shot_gucio.png" alt="Gucio Bar" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Gucio Bar</div>
+          <div class="work-cat">Website · Hospitality</div>
         </div>
       </a>
 
       <a href="https://dzmzah.github.io/magshaurma/" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://dzmzah.github.io/magshaurma/" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>PL · 2025</span>
-            <span class="work-num">04</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">magshaurma.pl</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Mag Shaurma</div>
-            <div class="work-cat">Website · Food</div>
-          </div>
+          <div class="work-shot"><img src="shot_shaurma.png" alt="Mag Shaurma" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Mag Shaurma</div>
+          <div class="work-cat">Website · Food</div>
         </div>
       </a>
 
       <a href="https://inca1122.github.io/jewelry-katowice/" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://inca1122.github.io/jewelry-katowice/" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>PL · 2025</span>
-            <span class="work-num">05</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">jewelry-katowice.pl</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Jewelry KTW</div>
-            <div class="work-cat">Website · Retail</div>
-          </div>
+          <div class="work-shot"><img src="shot_jewelry.png" alt="Jewelry KTW" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Jewelry KTW</div>
+          <div class="work-cat">Website · Retail</div>
         </div>
       </a>
 
       <a href="https://dzmzah.github.io/maya-gold" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://dzmzah.github.io/maya-gold" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>PL · 2025</span>
-            <span class="work-num">06</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">maya-gold.pl</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Maya Gold</div>
-            <div class="work-cat">Website · Jewelry</div>
-          </div>
+          <div class="work-shot"><img src="shot_maya.png" alt="Maya Gold" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Maya Gold</div>
+          <div class="work-cat">Website · Jewelry</div>
         </div>
       </a>
 
       <a href="https://marketingai.energiabiznesu.pl" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://marketingai.energiabiznesu.pl" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>PL · 2025</span>
-            <span class="work-num">07</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">energiabiznesu.pl</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Marketing AI</div>
-            <div class="work-cat">Website · B2B</div>
-          </div>
+          <div class="work-shot"><img src="shot_marketing.png" alt="Marketing AI" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Marketing AI</div>
+          <div class="work-cat">Website · B2B</div>
         </div>
       </a>
 
       <a href="https://beegelato.sk" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://beegelato.sk" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>SK · 2025</span>
-            <span class="work-num">08</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">beegelato.sk</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Beegelato</div>
-            <div class="work-cat">Website · Food</div>
-          </div>
+          <div class="work-shot"><img src="shot_beegelato.png" alt="Beegelato" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Beegelato</div>
+          <div class="work-cat">Website · Food</div>
         </div>
       </a>
       <a href="https://fightmode.tv" target="_blank" rel="noopener" class="work-card">
-        <iframe src="https://fightmode.tv" loading="lazy" scrolling="no" sandbox=""></iframe>
-        <div class="work-overlay">
-          <div class="work-top">
-            <span>PL · 2026</span>
-            <span class="work-num">09</span>
+        <div class="work-browser">
+          <div class="work-bar">
+            <span class="work-dot"></span><span class="work-dot"></span><span class="work-dot"></span>
+            <span class="work-url">fightmode.tv</span>
           </div>
-          <div class="work-bottom">
-            <div class="work-name">Fight Mode</div>
-            <div class="work-cat">Website · MMA</div>
-          </div>
+          <div class="work-shot"><img src="shot_fightmode.png" alt="Fight Mode" loading="lazy"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-name">Fight Mode</div>
+          <div class="work-cat">Website · MMA</div>
         </div>
       </a>
     </div>
