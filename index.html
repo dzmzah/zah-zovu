@@ -1335,7 +1335,7 @@
           preview.classList.add('show'); active = true;
           pImg.style.opacity = '1'; paint();
           clearInterval(rotTimer);
-          if (set.length > 1) rotTimer = setInterval(() => fadeTo(idx + 1), 5000); // auto-cycle every 5s
+          if (set.length > 1) rotTimer = setInterval(() => fadeTo(idx + 1), 3000); // auto-cycle every 3s
         });
         row.addEventListener('mouseleave', () => {
           preview.classList.remove('show'); active = false;
