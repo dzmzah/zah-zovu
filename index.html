@@ -109,7 +109,7 @@
 
     .nav-inner {
       pointer-events: auto;
-      width: 100%;
+      max-width: 1150px;
       margin: 0 auto;
       display: grid;
       grid-template-columns: 1fr auto 1fr;
@@ -124,9 +124,10 @@
       box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
       transition: all 1s ease;
     }
-    /* on scroll: expands edge-to-edge & squares off */
+    /* on scroll: widens to full width edge-to-edge & squares off */
     nav.scrolled { padding: 0; }
     nav.scrolled .nav-inner {
+      max-width: 3000px;
       border-radius: 0;
       border-left: 0; border-right: 0; border-top: 0;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
