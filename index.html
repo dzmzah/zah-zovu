@@ -464,6 +464,12 @@
     .service-row:hover .service-name { color: var(--accent-2); }
     .service-row:hover .service-arrow { opacity: 1; transform: translateX(8px); }
 
+    /* non-clickable services (no portfolio to show) */
+    .service-row.svc-static { cursor: default; }
+    .service-row.svc-static:hover { padding-left: 0; padding-right: 0; background: none; }
+    .service-row.svc-static:hover .service-name { color: var(--fg); }
+    .service-row.svc-static .service-arrow { visibility: hidden; }
+
     .service-num {
       font-family: var(--mono);
       font-size: 12px;
@@ -513,8 +519,36 @@
     @media (max-width: 980px) {
       .works-grid { grid-template-columns: repeat(2, 1fr); }
     }
+    /* phone: horizontal carousel — 3 cards (one column) per page */
     @media (max-width: 600px) {
-      .works-grid { grid-template-columns: 1fr; }
+      .works-grid {
+        grid-template-columns: none;
+        grid-auto-flow: column;
+        grid-template-rows: repeat(3, auto);
+        grid-auto-columns: 100%;
+        gap: 14px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+      }
+      .works-grid::-webkit-scrollbar { display: none; }
+      .works-grid .work-card { scroll-snap-align: start; }
+      .work-shot { height: 168px; }
+    }
+
+    /* pager arrows (mobile only) */
+    .pf-pager { display: none; }
+    .pf-pager button {
+      width: 46px; height: 46px; border-radius: 50%;
+      border: 1px solid var(--line); background: var(--bg-2); color: var(--fg);
+      font-family: var(--display); font-size: 20px; line-height: 1;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: border-color 0.3s, color 0.3s;
+    }
+    .pf-pager button:active { border-color: var(--accent); color: var(--accent-2); }
+    @media (max-width: 600px) {
+      .pf-pager { display: flex; justify-content: center; gap: 18px; margin-top: 22px; }
     }
 
     .work-card {
@@ -954,13 +988,13 @@
         <div class="service-desc" data-i18n="svc3_desc">AI avatars, generated visuals, custom GPTs, Nano Banana workflows, content production at scale.</div>
         <div class="service-arrow">→</div>
       </div>
-      <div class="service-row" data-cat="automation">
+      <div class="service-row svc-static">
         <div class="service-num">04</div>
         <div class="service-name" data-i18n="svc4_name">Automation</div>
         <div class="service-desc" data-i18n="svc4_desc">Make, n8n, custom integrations. Connect tools, eliminate manual work, ship faster.</div>
         <div class="service-arrow">→</div>
       </div>
-      <div class="service-row" data-cat="social">
+      <div class="service-row svc-static">
         <div class="service-num">05</div>
         <div class="service-name" data-i18n="svc5_name">Social & Ads</div>
         <div class="service-desc" data-i18n="svc5_desc">Content strategy, organic growth, Meta & Google Ads campaigns.</div>
@@ -1060,8 +1094,6 @@
         <button class="pf-tab" data-cat="websites" data-i18n="tab_websites">Websites</button>
         <button class="pf-tab" data-cat="video" data-i18n="tab_video">Video</button>
         <button class="pf-tab" data-cat="ai" data-i18n="tab_ai">AI Models</button>
-        <button class="pf-tab" data-cat="automation" data-i18n="tab_automation">Automation</button>
-        <button class="pf-tab" data-cat="social" data-i18n="tab_social">Social &amp; Ads</button>
       </div>
     </div>
 
@@ -1155,6 +1187,10 @@
           </div>
         </a>
       </div>
+      <div class="pf-pager">
+        <button class="pf-prev" aria-label="Previous">‹</button>
+        <button class="pf-next" aria-label="Next">›</button>
+      </div>
     </div>
 
     <!-- VIDEO -->
@@ -1175,23 +1211,6 @@
       </div>
     </div>
 
-    <!-- AUTOMATION -->
-    <div class="pf-panel" data-cat="automation">
-      <div class="pf-soon">
-        <div class="section-num" data-i18n="tab_automation">Automation</div>
-        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
-        <p data-i18n="soon_automation">Make &amp; n8n builds will land here soon. Reach out to see what I've shipped.</p>
-      </div>
-    </div>
-
-    <!-- SOCIAL & ADS -->
-    <div class="pf-panel" data-cat="social">
-      <div class="pf-soon">
-        <div class="section-num" data-i18n="tab_social">Social &amp; Ads</div>
-        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
-        <p data-i18n="soon_social">Campaigns and content case studies are in the works. Message me for results.</p>
-      </div>
-    </div>
   </div>
 
   <script>
@@ -1243,6 +1262,16 @@
       t.addEventListener('click', () => openCategory(t.dataset.cat)));
     document.querySelectorAll('[data-open]').forEach(el =>
       el.addEventListener('click', (e) => { e.preventDefault(); openCategory(el.dataset.open); }));
+
+    // Mobile carousel pager: flip the grid one page (3 cards) at a time
+    document.querySelectorAll('.pf-pager').forEach(pager => {
+      const grid = pager.parentElement.querySelector('.works-grid');
+      if (!grid) return;
+      pager.querySelector('.pf-prev').addEventListener('click', () =>
+        grid.scrollBy({ left: -grid.clientWidth, behavior: 'smooth' }));
+      pager.querySelector('.pf-next').addEventListener('click', () =>
+        grid.scrollBy({ left: grid.clientWidth, behavior: 'smooth' }));
+    });
 
     // In-page links: smooth scroll WITHOUT writing the hash to the URL
     document.querySelectorAll('a[href^="#"]:not([data-open])').forEach(a => {
