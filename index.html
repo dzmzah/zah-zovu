@@ -787,24 +787,28 @@
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
     }
-    /* phone: swipe carousel — 2 reels per page (uses videos 1-8) */
+    .video-page { display: contents; } /* desktop: transparent → 3x3 grid */
+    /* phone: swipe carousel — each page is 2 reels (uses videos 1-8) */
     @media (max-width: 600px) {
       .video-grid {
         display: flex;
         grid-template-columns: none;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        gap: 12px;
+        gap: 0;
         scrollbar-width: none;
         -webkit-overflow-scrolling: touch;
       }
       .video-grid::-webkit-scrollbar { display: none; }
-      .video-grid .video-tile {
-        flex: 0 0 auto;
-        width: calc(50% - 6px);
+      .video-grid .video-page {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        align-content: start;
+        flex: 0 0 100%;
+        scroll-snap-align: start;
       }
-      .video-grid .video-tile:nth-child(odd) { scroll-snap-align: start; }
-      .video-grid .video-tile:nth-child(9) { display: none; }
+      .video-grid .video-page--extra { display: none; }
     }
     .video-tile {
       width: 100%;
@@ -1432,15 +1436,29 @@
         <div class="pf-panel-aside" data-i18n="pf_vid_aside">Muted previews — click any to watch with sound.</div>
       </div>
       <div class="video-grid">
-        <video class="video-tile" src="video1.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video2.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video3.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video4.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video5.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video6.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video7.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video8.mp4" muted loop playsinline preload="metadata"></video>
-        <video class="video-tile" src="video9.mp4" muted loop playsinline preload="metadata"></video>
+        <div class="video-page">
+          <video class="video-tile" src="video1.mp4" muted loop playsinline preload="metadata"></video>
+          <video class="video-tile" src="video2.mp4" muted loop playsinline preload="metadata"></video>
+        </div>
+        <div class="video-page">
+          <video class="video-tile" src="video3.mp4" muted loop playsinline preload="metadata"></video>
+          <video class="video-tile" src="video4.mp4" muted loop playsinline preload="metadata"></video>
+        </div>
+        <div class="video-page">
+          <video class="video-tile" src="video5.mp4" muted loop playsinline preload="metadata"></video>
+          <video class="video-tile" src="video6.mp4" muted loop playsinline preload="metadata"></video>
+        </div>
+        <div class="video-page">
+          <video class="video-tile" src="video7.mp4" muted loop playsinline preload="metadata"></video>
+          <video class="video-tile" src="video8.mp4" muted loop playsinline preload="metadata"></video>
+        </div>
+        <div class="video-page video-page--extra">
+          <video class="video-tile" src="video9.mp4" muted loop playsinline preload="metadata"></video>
+        </div>
+      </div>
+      <div class="pf-pager">
+        <button class="pf-prev" aria-label="Previous">‹</button>
+        <button class="pf-next" aria-label="Next">›</button>
       </div>
     </div>
 
@@ -1468,6 +1486,10 @@
           <a href="post_ytpalant.jpg" target="_blank" rel="noopener" class="post-card post-card--phone"><img src="post_ytpalant.jpg" alt="" loading="lazy" class="post-img"></a>
           <a href="post_babajaga.jpg" target="_blank" rel="noopener" class="post-card"><img src="post_babajaga.jpg" alt="" loading="lazy" class="post-img"></a>
         </div>
+      </div>
+      <div class="pf-pager">
+        <button class="pf-prev" aria-label="Previous">‹</button>
+        <button class="pf-next" aria-label="Next">›</button>
       </div>
     </div>
 
@@ -1507,6 +1529,8 @@
       portfolio.classList.add('open');
       document.body.style.overflow = 'hidden';
       portfolio.scrollTop = 0;
+      requestAnimationFrame(() => window.dispatchEvent(new Event('pf-open')));
+      setTimeout(() => window.dispatchEvent(new Event('pf-open')), 160);
     }
     function closeCategory() {
       portfolio.classList.remove('open');
@@ -1523,39 +1547,44 @@
     document.querySelectorAll('[data-open]').forEach(el =>
       el.addEventListener('click', (e) => { e.preventDefault(); openCategory(el.dataset.open); }));
 
-    // Mobile carousel pager: flip exactly one page (3 cards), clamped at the ends
+    // Mobile carousel pager (sites / graphics / video): flip exactly one page, clamped at ends
     document.querySelectorAll('.pf-pager').forEach(pager => {
-      const grid = pager.parentElement.querySelector('.works-grid');
-      if (!grid) return;
-      const per = 3;
+      const panel = pager.closest('.pf-panel') || pager.parentElement;
+      const scroller = panel.querySelector('.works-grid, .posts-grid, .video-grid');
+      if (!scroller) return;
       const prev = pager.querySelector('.pf-prev');
       const next = pager.querySelector('.pf-next');
-      const cards = () => [...grid.querySelectorAll('.work-card')];
-      const pageCount = () => Math.max(1, Math.ceil(cards().length / per));
-      const curPage = () => {
-        const gl = grid.getBoundingClientRect().left;
-        const cs = cards();
-        let best = 0, bestDist = Infinity;
-        for (let p = 0; p < pageCount(); p++) {
-          const c = cs[p * per]; if (!c) continue;
-          const d = Math.abs(c.getBoundingClientRect().left - gl);
-          if (d < bestDist) { bestDist = d; best = p; }
-        }
-        return best;
+      const pageLefts = () => {
+        const base = scroller.getBoundingClientRect().left;
+        const sl = scroller.scrollLeft;
+        const lefts = [];
+        [...scroller.children].forEach(c => {
+          if (getComputedStyle(c).display === 'none') return;
+          const x = Math.round(sl + c.getBoundingClientRect().left - base);
+          if (!lefts.some(v => Math.abs(v - x) < 4)) lefts.push(x);
+        });
+        return lefts.sort((a, b) => a - b);
+      };
+      const curIdx = (lefts) => {
+        const sl = scroller.scrollLeft; let i = 0, bd = Infinity;
+        lefts.forEach((l, j) => { const d = Math.abs(l - sl); if (d < bd) { bd = d; i = j; } });
+        return i;
       };
       const go = (dir) => {
-        const target = Math.max(0, Math.min(curPage() + dir, pageCount() - 1));
-        const c = cards()[target * per];
-        if (c) grid.scrollTo({ left: grid.scrollLeft + c.getBoundingClientRect().left - grid.getBoundingClientRect().left, behavior: 'smooth' });
+        const l = pageLefts();
+        const t = Math.max(0, Math.min(curIdx(l) + dir, l.length - 1));
+        scroller.scrollTo({ left: l[t], behavior: 'smooth' });
       };
       const update = () => {
-        const p = curPage();
-        prev.disabled = p <= 0;
-        next.disabled = p >= pageCount() - 1;
+        const l = pageLefts(); const i = curIdx(l);
+        prev.disabled = i <= 0;
+        next.disabled = i >= l.length - 1;
       };
       prev.addEventListener('click', () => go(-1));
       next.addEventListener('click', () => go(1));
-      grid.addEventListener('scroll', () => { clearTimeout(grid._pt); grid._pt = setTimeout(update, 90); }, { passive: true });
+      scroller.addEventListener('scroll', () => { clearTimeout(scroller._pt); scroller._pt = setTimeout(update, 90); }, { passive: true });
+      window.addEventListener('pf-open', update);
+      window.addEventListener('resize', update);
       update();
     });
 
