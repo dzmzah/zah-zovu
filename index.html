@@ -440,6 +440,38 @@
       margin: 0 auto;
     }
 
+    /* running strip of work previews — MOBILE ONLY (hidden on desktop) */
+    .pf-strip { display: none; }
+    .pf-strip-track {
+      display: flex;
+      gap: 12px;
+      width: max-content;
+      animation: pfscroll 38s linear infinite;
+    }
+    .pf-strip-img {
+      width: 200px;
+      height: 125px;
+      flex-shrink: 0;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+    }
+    @keyframes pfscroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (max-width: 600px) {
+      .pf-strip {
+        display: block;
+        overflow: hidden;
+        margin: 36px 0 4px;
+        cursor: pointer;
+        -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+        mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      }
+    }
+
     .service-row {
       display: grid;
       grid-template-columns: 80px 1fr 2fr 60px;
@@ -1023,6 +1055,30 @@
       </div>
       <div class="section-aside" data-i18n="svc_aside">
         At ZOVU I handle the build side. My brother runs strategy and ads — I make the things you actually see and use.
+      </div>
+    </div>
+
+    <!-- running strip: MOBILE ONLY -->
+    <div class="pf-strip" onclick="openCategory('websites')">
+      <div class="pf-strip-track">
+        <img src="shot_fightmode.png" alt="" class="pf-strip-img">
+        <img src="shot_shaurma.png" alt="" class="pf-strip-img">
+        <img src="shot_beegelato.png" alt="" class="pf-strip-img">
+        <img src="shot_maya.png" alt="" class="pf-strip-img">
+        <img src="shot_marketing.png" alt="" class="pf-strip-img">
+        <img src="shot_jewelry.png" alt="" class="pf-strip-img">
+        <img src="shot_gucio.png" alt="" class="pf-strip-img">
+        <img src="shot_pickactive.png" alt="" class="pf-strip-img">
+        <img src="shot_adekvat.png" alt="" class="pf-strip-img">
+        <img src="shot_fightmode.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_shaurma.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_beegelato.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_maya.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_marketing.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_jewelry.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_gucio.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_pickactive.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_adekvat.png" alt="" class="pf-strip-img" aria-hidden="true">
       </div>
     </div>
 
