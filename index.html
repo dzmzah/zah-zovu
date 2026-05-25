@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZAH — Creator @ ZOVU</title>
+  <meta name="description" content="Zakhar Dzmitryieu — Creator at ZOVU. Sites, video, AI, content." />
+  <meta property="og:title" content="ZAH — Creator @ ZOVU" />
+  <meta property="og:description" content="Sites · Video · AI · Content. Katowice → worldwide." />
+  <link rel="icon" href="logo_png.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505;
+      --bg-2: #0c0c0c;
+      --fg: #ffffff;
+      --fg-dim: #888;
+      --accent: #7c3aed;
+      --accent-2: #a78bfa;
+      --line: #1a1a1a;
+      --display: 'Oswald', sans-serif;
+      --body: 'Inter', sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--body);
+      font-weight: 400;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    img { display: block; max-width: 100%; }
+
+    /* ───── SPLASH PRELOADER ───── */
+    .splash {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+
+    .splash.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .splash img {
+      width: 180px;
+      height: 180px;
+      animation: pulse 2s ease-in-out infinite;
+      filter: drop-shadow(0 0 60px rgba(124, 58, 237, 0.6));
+    }
+
+    .splash .splash-text {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 42px;
+      letter-spacing: 0.12em;
+      margin-top: 24px;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.4s forwards;
+    }
+
+    .splash .splash-sub {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--fg-dim);
+      margin-top: 12px;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: fadeIn 1.2s ease 0.8s forwards;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.95; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    /* ───── NAVBAR ───── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      background: rgba(5, 5, 5, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1000;
+      border-bottom: 1px solid var(--line);
+      padding: 18px 32px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .nav-left, .nav-right {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+    }
+
+    .nav-right { justify-content: flex-end; }
+
+    nav a.nav-link {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      color: var(--fg);
+    }
+
+    nav a.nav-link:hover { color: var(--accent-2); }
+
+    nav a.cta {
+      background: var(--accent);
+      padding: 10px 18px;
+      border-radius: 2px;
+      transition: background 0.3s;
+    }
+
+    nav a.cta:hover {
+      background: var(--accent-2);
+      color: #000;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-logo img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .nav-logo span {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 24px;
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 800px) {
+      nav { grid-template-columns: auto 1fr auto; }
+      .nav-left { display: none; }
+      .nav-right { gap: 14px; }
+      nav a.nav-link { font-size: 12px; }
+      nav a.nav-link:not(.cta):not(.always) { display: none; }
+    }
+
+    /* ───── HERO ───── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      padding: 120px 32px 80px;
+      isolation: isolate;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(ellipse at 30% 40%, rgba(124, 58, 237, 0.35) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(91, 33, 182, 0.25) 0%, transparent 50%),
+        linear-gradient(180deg, #050505 0%, #0a0418 100%);
+    }
+
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px);
+      pointer-events: none;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.06;
+      mix-blend-mode: overlay;
+    }
+
+    .hero-blob {
+      position: absolute;
+      width: 720px;
+      height: 720px;
+      z-index: -1;
+      opacity: 0.5;
+      filter: blur(40px);
+      animation: blobFloat 12s ease-in-out infinite;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+      50% { transform: translate(-50%, -55%) scale(1.1) rotate(20deg); }
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.4em;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: heroRise 1s ease 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(120px, 28vw, 480px);
+      line-height: 0.85;
+      letter-spacing: -0.03em;
+      text-align: center;
+      text-transform: uppercase;
+      opacity: 0;
+      animation: heroRise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards;
+      background: linear-gradient(180deg, #ffffff 30%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 100px rgba(124, 58, 237, 0.3);
+    }
+
+    .hero-sub {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: clamp(18px, 2.2vw, 28px);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fg);
+      margin-top: 32px;
+      text-align: center;
+      opacity: 0;
+      animation: heroRise 1s ease 0.7s forwards;
+    }
+
+    .hero-sub span {
+      color: var(--accent-2);
+      margin: 0 8px;
+    }
+
+    .hero-meta {
+      position: absolute;
+      bottom: 40px;
+      left: 32px;
+      right: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      opacity: 0;
+      animation: heroRise 1s ease 1s forwards;
+    }
+
+    .hero-meta-right { text-align: right; }
+    .hero-meta strong { color: var(--fg); font-weight: 400; }
+
+    @keyframes heroRise {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ───── STATS BAR ───── */
+    .stats {
+      background: #fff;
+      color: #000;
+      padding: 80px 32px;
+      border-top: 4px solid var(--accent);
+      border-bottom: 4px solid var(--accent);
+    }
+
+    .stats-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+
+    @media (max-width: 800px) {
+      .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 48px; }
+    }
+
+    .stat {
+      border-left: 2px solid #000;
+      padding-left: 24px;
+    }
+
+    .stat-value {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(56px, 7vw, 120px);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+    }
+
+    .stat-label {
+      font-family: var(--display);
+      font-weight: 500;
+      font-size: 13px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-top: 12px;
+      color: #555;
+    }
+
+    /* ───── SECTION HEADER ───── */
+    section {
+      padding: 120px 32px;
+      position: relative;
+    }
+
+    .section-head {
+      max-width: 1400px;
+      margin: 0 auto 80px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.3em;
+      color: var(--accent-2);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(48px, 7vw, 120px);
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+    }
+
+    .section-title em {
+      font-style: normal;
+      color: var(--accent-2);
+    }
+
+    .section-aside {
+      max-width: 360px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--fg-dim);
+      padding-bottom: 8px;
+    }
+
+    /* ───── SERVICES ───── */
+    .services {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .service-row {
+      display: grid;
+      grid-template-columns: 80px 1fr 2fr 60px;
+      gap: 32px;
+      align-items: baseline;
+      padding: 40px 0;
+      border-top: 1px solid var(--line);
+      transition: padding 0.4s ease;
+    }
+
+    .service-row:last-child {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .service-row:hover {
+      padding-left: 24px;
+      padding-right: 24px;
+      background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.05), transparent);
+    }
+
+    .service-row:hover .service-name { color: var(--accent-2); }
+    .service-row:hover .service-arrow { opacity: 1; transform: translateX(8px); }
+
+    .service-num {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--fg-dim);
+      letter-spacing: 0.1em;
+    }
+
+    .service-name {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(28px, 3.6vw, 52px);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      transition: color 0.3s;
+      line-height: 1;
+    }
+
+    .service-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--fg-dim);
+    }
+
+    .service-arrow {
+      font-family: var(--mono);
+      font-size: 18px;
+      color: var(--accent-2);
+      text-align: right;
+      opacity: 0;
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 800px) {
+      .service-row { grid-template-columns: 40px 1fr; }
+      .service-desc, .service-arrow { display: none; }
+    }
+
+    /* ───── CLIENTS ───── */
+    .clients {
+      background: var(--bg-2);
+      padding: 60px 32px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .clients-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+
+    @media (max-width: 800px) {
+      .clients-inner { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .client {
+      padding: 32px 24px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      text-align: center;
+      transition: background 0.3s;
+    }
+
+    .client:hover { background: rgba(124, 58, 237, 0.08); }
+
+    .client-name {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .client-cat {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--fg-dim);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* ───── WORKS GRID (FIGHTCARDS) ───── */
+    .works-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    @media (max-width: 800px) {
+      .works-grid { grid-template-columns: 1fr; }
+    }
+
+    .work-card {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--bg-2);
+      border: 1px solid var(--line);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .work-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+
+    .work-card iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      transform: scale(0.5);
+      transform-origin: 0 0;
+      width: 200%;
+      height: 200%;
+      pointer-events: none;
+      filter: grayscale(0.4) brightness(0.7);
+      transition: filter 0.5s;
+    }
+
+    .work-card:hover iframe {
+      filter: grayscale(0) brightness(0.9);
+    }
+
+    .work-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.6) 60%, rgba(0,0,0,0.95) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 28px;
+    }
+
+    .work-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+
+    .work-num {
+      background: var(--accent);
+      color: #fff;
+      padding: 4px 10px;
+      font-weight: 600;
+    }
+
+    .work-bottom .work-name {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(28px, 3.2vw, 44px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .work-bottom .work-cat {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+    }
+
+    /* ───── MARQUEE ───── */
+    .marquee {
+      overflow: hidden;
+      padding: 28px 0;
+      background: var(--accent);
+      color: #fff;
+      white-space: nowrap;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .marquee-track {
+      display: inline-block;
+      animation: marquee 35s linear infinite;
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(36px, 5vw, 64px);
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+    }
+
+    .marquee-track span {
+      display: inline-block;
+      padding: 0 32px;
+    }
+
+    .marquee-track .star {
+      color: #000;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* ───── CONTACT ───── */
+    .contact {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .contact-title {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: clamp(80px, 14vw, 240px);
+      line-height: 0.85;
+      letter-spacing: -0.04em;
+      text-transform: uppercase;
+      margin-bottom: 60px;
+    }
+
+    .contact-title em {
+      font-style: normal;
+      color: var(--accent-2);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (max-width: 800px) {
+      .contact-grid { grid-template-columns: 1fr; }
+    }
+
+    .contact-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 32px 28px;
+      border-bottom: 1px solid var(--line);
+      transition: all 0.3s;
+    }
+
+    .contact-grid > a:nth-child(odd) {
+      border-right: 1px solid var(--line);
+    }
+
+    @media (max-width: 800px) {
+      .contact-grid > a:nth-child(odd) { border-right: none; }
+    }
+
+    .contact-link:hover {
+      background: rgba(124, 58, 237, 0.06);
+      padding-left: 36px;
+    }
+
+    .contact-link:hover .contact-arrow {
+      color: var(--accent-2);
+      transform: translateX(8px);
+    }
+
+    .contact-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+      margin-bottom: 8px;
+    }
+
+    .contact-value {
+      font-family: var(--display);
+      font-weight: 600;
+      font-size: clamp(20px, 2.2vw, 28px);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .contact-arrow {
+      font-family: var(--mono);
+      font-size: 20px;
+      color: var(--fg-dim);
+      transition: all 0.3s;
+    }
+
+    /* ───── FOOTER ───── */
+    footer {
+      background: #000;
+      padding: 60px 32px 40px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--fg-dim);
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .footer-logo img { width: 32px; height: 32px; }
+    .footer-logo span {
+      font-family: var(--display);
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--fg);
+      letter-spacing: 0.1em;
+    }
+
+    footer a:hover { color: var(--accent-2); }
+
+    /* ───── REVEAL ───── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SPLASH PRELOADER -->
+  <div class="splash" id="splash">
+    <img src="logo_png.png" alt="ZOVU" />
+    <div class="splash-text">ZOVU</div>
+    <div class="splash-sub">ZAH · CREATOR</div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="nav-left">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="#works" class="nav-link">Works</a>
+    </div>
+    <a href="#" class="nav-logo">
+      <img src="logo_png.png" alt="ZOVU" />
+      <span>ZOVU</span>
+    </a>
+    <div class="nav-right">
+      <a href="https://zovu.pl" target="_blank" rel="noopener" class="nav-link always">Agency</a>
+      <a href="#contact" class="nav-link cta">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <img src="logo_png.png" alt="" class="hero-blob" />
+
+    <div class="hero-eyebrow">Creator @ ZOVU · Est. MMXXIV</div>
+
+    <h1 class="hero-title">ZAH</h1>
+
+    <div class="hero-sub">Sites <span>·</span> Video <span>·</span> AI <span>·</span> Content</div>
+
+    <div class="hero-meta">
+      <div>
+        <strong>Zakhar Dzmitryieu</strong><br>
+        Katowice → Worldwide
+      </div>
+      <div class="hero-meta-right">
+        <strong>Scroll</strong><br>
+        ↓
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stats-inner">
+      <div class="stat">
+        <div class="stat-value">10M+</div>
+        <div class="stat-label">Views</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">100K+</div>
+        <div class="stat-label">Followers</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">70K$+</div>
+        <div class="stat-label">Ad Spend</div>
+      </div>
+      <div class="stat">
+        <div class="stat-value">2+</div>
+        <div class="stat-label">Years</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT (Services) -->
+  <section id="services">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">01 / Services</div>
+        <h2 class="section-title">What I <em>build</em></h2>
+      </div>
+      <div class="section-aside">
+        At ZOVU I handle the build side. My brother runs strategy and ads — I make the things you actually see and use.
+      </div>
+    </div>
+
+    <div class="services reveal">
+      <div class="service-row">
+        <div class="service-num">01</div>
+        <div class="service-name">Websites</div>
+        <div class="service-desc">Landing pages, business sites, e-commerce. WordPress or hand-coded. Built fast, mobile-first, converting.</div>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">02</div>
+        <div class="service-name">Video</div>
+        <div class="service-desc">YouTube, Reels, TikTok, podcasts, course content. Shoot, edit, motion graphics, AI generation.</div>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">03</div>
+        <div class="service-name">AI Models</div>
+        <div class="service-desc">AI avatars, generated visuals, custom GPTs, Nano Banana workflows, content production at scale.</div>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">04</div>
+        <div class="service-name">Automation</div>
+        <div class="service-desc">Make, n8n, custom integrations. Connect tools, eliminate manual work, ship faster.</div>
+        <div class="service-arrow">→</div>
+      </div>
+      <div class="service-row">
+        <div class="service-num">05</div>
+        <div class="service-name">Social & Ads</div>
+        <div class="service-desc">Content strategy, organic growth, Meta & Google Ads campaigns.</div>
+        <div class="service-arrow">→</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENTS / PARTNERS -->
+  <div class="clients">
+    <div class="clients-inner">
+      <div class="client">
+        <div class="client-name">Adekvat</div>
+        <div class="client-cat">Ceilings · BY</div>
+      </div>
+      <div class="client">
+        <div class="client-name">Pickactive</div>
+        <div class="client-cat">Fitness · PL</div>
+      </div>
+      <div class="client">
+        <div class="client-name">Gucio Bar</div>
+        <div class="client-cat">Hospitality · PL</div>
+      </div>
+      <div class="client">
+        <div class="client-name">Mag Shaurma</div>
+        <div class="client-cat">Food · PL</div>
+      </div>
+      <div class="client">
+        <div class="client-name">Jewelry KTW</div>
+        <div class="client-cat">Retail · PL</div>
+      </div>
+      <div class="client">
+        <div class="client-name">Maya Gold</div>
+        <div class="client-cat">Jewelry · PL</div>
+      </div>
+      <div class="client">
+        <div class="client-name">Marketing AI</div>
+        <div class="client-cat">B2B · PL</div>
+      </div>
+      <div class="client">
+        <div class="client-name">Beegelato</div>
+        <div class="client-cat">Food · SK</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORKS -->
+  <section id="works">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-num">02 / Works</div>
+        <h2 class="section-title">Selected <em>builds</em></h2>
+      </div>
+      <div class="section-aside">
+        Sites I've shipped. Tap any to see it live. More on request — DM or email below.
+      </div>
+    </div>
+
+    <div class="works-grid reveal">
+      <a href="https://adekvatpotolki.netlify.app" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://adekvatpotolki.netlify.app" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>BY · 2025</span>
+            <span class="work-num">01</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Adekvat</div>
+            <div class="work-cat">Website · Ceilings</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://pickactive.pl" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://pickactive.pl" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>PL · 2025</span>
+            <span class="work-num">02</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Pickactive</div>
+            <div class="work-cat">Website · Fitness</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://inca1122.github.io/gucio_bar/index.html" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://inca1122.github.io/gucio_bar/index.html" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>PL · 2025</span>
+            <span class="work-num">03</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Gucio Bar</div>
+            <div class="work-cat">Website · Hospitality</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://dzmzah.github.io/magshaurma/" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://dzmzah.github.io/magshaurma/" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>PL · 2025</span>
+            <span class="work-num">04</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Mag Shaurma</div>
+            <div class="work-cat">Website · Food</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://inca1122.github.io/jewelry-katowice/" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://inca1122.github.io/jewelry-katowice/" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>PL · 2025</span>
+            <span class="work-num">05</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Jewelry KTW</div>
+            <div class="work-cat">Website · Retail</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://dzmzah.github.io/maya-gold" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://dzmzah.github.io/maya-gold" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>PL · 2025</span>
+            <span class="work-num">06</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Maya Gold</div>
+            <div class="work-cat">Website · Jewelry</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://marketingai.energiabiznesu.pl" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://marketingai.energiabiznesu.pl" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>PL · 2025</span>
+            <span class="work-num">07</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Marketing AI</div>
+            <div class="work-cat">Website · B2B</div>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://beegelato.sk" target="_blank" rel="noopener" class="work-card">
+        <iframe src="https://beegelato.sk" loading="lazy" scrolling="no" sandbox=""></iframe>
+        <div class="work-overlay">
+          <div class="work-top">
+            <span>SK · 2025</span>
+            <span class="work-num">08</span>
+          </div>
+          <div class="work-bottom">
+            <div class="work-name">Beegelato</div>
+            <div class="work-cat">Website · Food</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee">
+    <div class="marquee-track">
+      <span>SITES</span><span class="star">✦</span>
+      <span>VIDEO</span><span class="star">✦</span>
+      <span>AI</span><span class="star">✦</span>
+      <span>AUTOMATION</span><span class="star">✦</span>
+      <span>CONTENT</span><span class="star">✦</span>
+      <span>ADS</span><span class="star">✦</span>
+      <span>SITES</span><span class="star">✦</span>
+      <span>VIDEO</span><span class="star">✦</span>
+      <span>AI</span><span class="star">✦</span>
+      <span>AUTOMATION</span><span class="star">✦</span>
+      <span>CONTENT</span><span class="star">✦</span>
+      <span>ADS</span><span class="star">✦</span>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="contact">
+      <div class="section-num reveal">03 / Contact</div>
+      <h2 class="contact-title reveal">Let's <em>build</em></h2>
+
+      <div class="contact-grid reveal">
+        <a href="https://wa.me/48575496452" target="_blank" rel="noopener" class="contact-link">
+          <div>
+            <div class="contact-label">WhatsApp</div>
+            <div class="contact-value">+48 575 496 452</div>
+          </div>
+          <div class="contact-arrow">↗</div>
+        </a>
+        <a href="mailto:zakhardzmitryieu@gmail.com" class="contact-link">
+          <div>
+            <div class="contact-label">Email</div>
+            <div class="contact-value">zakhardzmitryieu</div>
+          </div>
+          <div class="contact-arrow">↗</div>
+        </a>
+        <a href="https://instagram.com/zahcreator" target="_blank" rel="noopener" class="contact-link">
+          <div>
+            <div class="contact-label">Instagram</div>
+            <div class="contact-value">@zahcreator</div>
+          </div>
+          <div class="contact-arrow">↗</div>
+        </a>
+        <a href="https://zovu.pl" target="_blank" rel="noopener" class="contact-link">
+          <div>
+            <div class="contact-label">Agency</div>
+            <div class="contact-value">zovu.pl</div>
+          </div>
+          <div class="contact-arrow">↗</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <a href="#" class="footer-logo">
+        <img src="logo_png.png" alt="ZOVU" />
+        <span>ZOVU</span>
+      </a>
+      <div>© MMXXVI · Zakhar Dzmitryieu</div>
+      <div>Katowice → Worldwide</div>
+    </div>
+  </footer>
+
+  <script>
+    // Splash preloader
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('splash').classList.add('hidden');
+      }, 1800);
+    });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
