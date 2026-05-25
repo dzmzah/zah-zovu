@@ -26,7 +26,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
+    html { overflow-x: hidden; }
 
     body {
       background: var(--bg);
@@ -438,6 +438,43 @@
     .services {
       max-width: 1400px;
       margin: 0 auto;
+    }
+
+    /* running strip of work previews under the portfolio title */
+    .pf-strip {
+      margin: 44px 0 8px;
+      overflow: hidden;
+      cursor: pointer;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    }
+    .pf-strip-track {
+      display: flex;
+      gap: 16px;
+      width: max-content;
+      animation: pfscroll 45s linear infinite;
+    }
+    .pf-strip:hover .pf-strip-track { animation-play-state: paused; }
+    .pf-strip-img {
+      width: 240px;
+      height: 150px;
+      flex-shrink: 0;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      filter: grayscale(0.35) brightness(0.8);
+      transition: filter 0.4s ease, transform 0.4s ease;
+    }
+    .pf-strip:hover .pf-strip-img { filter: grayscale(0) brightness(1); }
+    .pf-strip-img:hover { transform: translateY(-5px); }
+    @keyframes pfscroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+    @media (max-width: 600px) {
+      .pf-strip-img { width: 180px; height: 112px; }
+      .pf-strip-track { animation-duration: 32s; }
     }
 
     .service-row {
@@ -1004,6 +1041,29 @@
       </div>
     </div>
 
+    <div class="pf-strip reveal" onclick="openCategory('websites')">
+      <div class="pf-strip-track">
+        <img src="shot_fightmode.png" alt="" class="pf-strip-img">
+        <img src="shot_shaurma.png" alt="" class="pf-strip-img">
+        <img src="shot_beegelato.png" alt="" class="pf-strip-img">
+        <img src="shot_maya.png" alt="" class="pf-strip-img">
+        <img src="shot_marketing.png" alt="" class="pf-strip-img">
+        <img src="shot_jewelry.png" alt="" class="pf-strip-img">
+        <img src="shot_gucio.png" alt="" class="pf-strip-img">
+        <img src="shot_pickactive.png" alt="" class="pf-strip-img">
+        <img src="shot_adekvat.png" alt="" class="pf-strip-img">
+        <img src="shot_fightmode.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_shaurma.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_beegelato.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_maya.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_marketing.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_jewelry.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_gucio.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_pickactive.png" alt="" class="pf-strip-img" aria-hidden="true">
+        <img src="shot_adekvat.png" alt="" class="pf-strip-img" aria-hidden="true">
+      </div>
+    </div>
+
     <div class="services reveal">
       <div class="service-row" data-cat="websites">
         <div class="service-num">01</div>
@@ -1365,6 +1425,27 @@
 
     // Esc closes the portfolio view
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCategory(); });
+
+    // Buttery inertia scrolling — wheel glides to a smooth stop (desktop only)
+    (function () {
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return; // skip touch (native momentum)
+      let target = window.scrollY, raf = null;
+      const ease = 0.085;
+      const maxY = () => document.documentElement.scrollHeight - window.innerHeight;
+      function tick() {
+        const cur = window.scrollY;
+        if (Math.abs(target - cur) < 0.5) { window.scrollTo(0, target); raf = null; return; }
+        window.scrollTo(0, cur + (target - cur) * ease);
+        raf = requestAnimationFrame(tick);
+      }
+      window.addEventListener('wheel', (e) => {
+        if (portfolio.classList.contains('open') || e.ctrlKey) return; // let overlay scroll / allow zoom
+        e.preventDefault();
+        if (raf === null) target = window.scrollY; // re-sync after any non-wheel scroll
+        target = Math.max(0, Math.min(target + e.deltaY * (e.deltaMode === 1 ? 16 : 1), maxY()));
+        if (raf === null) raf = requestAnimationFrame(tick);
+      }, { passive: false });
+    })();
 
     // ───── i18n: EN / PL / RU ─────
     const I18N = {
