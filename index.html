@@ -653,6 +653,7 @@
       transition: border-color 0.3s, color 0.3s;
     }
     .pf-pager button:active { border-color: var(--accent); color: var(--accent-2); }
+    .pf-pager button:disabled { opacity: 0.3; cursor: default; }
     @media (max-width: 600px) {
       .pf-pager { display: flex; justify-content: center; gap: 18px; margin-top: 22px; }
     }
@@ -1521,14 +1522,40 @@
     document.querySelectorAll('[data-open]').forEach(el =>
       el.addEventListener('click', (e) => { e.preventDefault(); openCategory(el.dataset.open); }));
 
-    // Mobile carousel pager: flip the grid one page (3 cards) at a time
+    // Mobile carousel pager: flip exactly one page (3 cards), clamped at the ends
     document.querySelectorAll('.pf-pager').forEach(pager => {
       const grid = pager.parentElement.querySelector('.works-grid');
       if (!grid) return;
-      pager.querySelector('.pf-prev').addEventListener('click', () =>
-        grid.scrollBy({ left: -grid.clientWidth, behavior: 'smooth' }));
-      pager.querySelector('.pf-next').addEventListener('click', () =>
-        grid.scrollBy({ left: grid.clientWidth, behavior: 'smooth' }));
+      const per = 3;
+      const prev = pager.querySelector('.pf-prev');
+      const next = pager.querySelector('.pf-next');
+      const cards = () => [...grid.querySelectorAll('.work-card')];
+      const pageCount = () => Math.max(1, Math.ceil(cards().length / per));
+      const curPage = () => {
+        const gl = grid.getBoundingClientRect().left;
+        const cs = cards();
+        let best = 0, bestDist = Infinity;
+        for (let p = 0; p < pageCount(); p++) {
+          const c = cs[p * per]; if (!c) continue;
+          const d = Math.abs(c.getBoundingClientRect().left - gl);
+          if (d < bestDist) { bestDist = d; best = p; }
+        }
+        return best;
+      };
+      const go = (dir) => {
+        const target = Math.max(0, Math.min(curPage() + dir, pageCount() - 1));
+        const c = cards()[target * per];
+        if (c) grid.scrollTo({ left: grid.scrollLeft + c.getBoundingClientRect().left - grid.getBoundingClientRect().left, behavior: 'smooth' });
+      };
+      const update = () => {
+        const p = curPage();
+        prev.disabled = p <= 0;
+        next.disabled = p >= pageCount() - 1;
+      };
+      prev.addEventListener('click', () => go(-1));
+      next.addEventListener('click', () => go(1));
+      grid.addEventListener('scroll', () => { clearTimeout(grid._pt); grid._pt = setTimeout(update, 90); }, { passive: true });
+      update();
     });
 
     // Video reels: autoplay the ones in view (muted loop), click = fullscreen + sound
