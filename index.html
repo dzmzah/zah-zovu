@@ -706,6 +706,33 @@
       .post-img { height: 168px; }
     }
 
+    /* video reels wall */
+    .video-grid {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+    @media (max-width: 980px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 600px) { .video-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+    .video-tile {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      object-fit: cover;
+      display: block;
+      background: #000;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.4s cubic-bezier(.16,1,.3,1), box-shadow 0.4s;
+    }
+    .video-tile:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 44px rgba(124,58,237,0.25);
+    }
+
     /* ───── PORTFOLIO (category views) ───── */
     .portfolio {
       position: fixed;
@@ -1309,10 +1336,21 @@
 
     <!-- VIDEO -->
     <div class="pf-panel" data-cat="video">
-      <div class="pf-soon">
+      <div class="pf-panel-head">
         <div class="section-num" data-i18n="tab_video">Video</div>
-        <h2 class="section-title" data-i18n="pf_soon_title">Coming <em>soon</em></h2>
-        <p data-i18n="soon_video">Showreel, edits and motion work are being packed up. Drop me a line for samples in the meantime.</p>
+        <h2 class="section-title" data-i18n="pf_vid_title">Video &amp; <em>reels</em></h2>
+        <div class="pf-panel-aside" data-i18n="pf_vid_aside">Muted previews — click any to watch with sound.</div>
+      </div>
+      <div class="video-grid">
+        <video class="video-tile" src="video1.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video2.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video3.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video4.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video5.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video6.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video7.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video8.mp4" muted loop playsinline preload="metadata"></video>
+        <video class="video-tile" src="video9.mp4" muted loop playsinline preload="metadata"></video>
       </div>
     </div>
 
@@ -1400,6 +1438,24 @@
         grid.scrollBy({ left: -grid.clientWidth, behavior: 'smooth' }));
       pager.querySelector('.pf-next').addEventListener('click', () =>
         grid.scrollBy({ left: grid.clientWidth, behavior: 'smooth' }));
+    });
+
+    // Video reels: autoplay the ones in view (muted loop), click = fullscreen + sound
+    const vidIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        const v = e.target;
+        if (e.isIntersecting) { v.play().catch(() => {}); }
+        else { v.pause(); }
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.video-tile').forEach(v => {
+      vidIO.observe(v);
+      v.addEventListener('click', () => {
+        v.muted = false;
+        if (v.requestFullscreen) v.requestFullscreen();
+        else if (v.webkitEnterFullscreen) v.webkitEnterFullscreen();
+        else if (v.webkitRequestFullscreen) v.webkitRequestFullscreen();
+      });
     });
 
     // Cursor-following preview that teases the portfolio on category hover
@@ -1502,6 +1558,7 @@
         tab_websites: "Websites", tab_video: "Video", tab_ai: "Graphics", tab_automation: "Automation", tab_social: "Social & Ads",
         pf_home: "← Home", pf_web_title: "Sites I've <em>shipped</em>", pf_web_aside: "Tap any to open it live. More on request.",
         pf_gfx_title: "Graphics &amp; <em>posts</em>", pf_gfx_aside: "Click any to open full size.",
+        pf_vid_title: "Video &amp; <em>reels</em>", pf_vid_aside: "Muted previews — click any to watch with sound.",
         pf_soon_title: "Coming <em>soon</em>",
         soon_video: "Showreel, edits and motion work are being packed up. Drop me a line for samples in the meantime.",
         soon_ai: "AI avatars and generated visuals are on the way. Ask me for current examples.",
@@ -1525,6 +1582,7 @@
         tab_websites: "Strony", tab_video: "Wideo", tab_ai: "Grafika", tab_automation: "Automatyzacja", tab_social: "Social media i reklamy",
         pf_home: "← Start", pf_web_title: "Strony, które <em>zrobiłem</em>", pf_web_aside: "Kliknij, by otworzyć na żywo. Więcej na życzenie.",
         pf_gfx_title: "Grafika i <em>posty</em>", pf_gfx_aside: "Kliknij, by otworzyć w pełnym rozmiarze.",
+        pf_vid_title: "Wideo i <em>rolki</em>", pf_vid_aside: "Wyciszone podglądy — kliknij, by obejrzeć z dźwiękiem.",
         pf_soon_title: "Już <em>wkrótce</em>",
         soon_video: "Showreel, montaże i motion są w przygotowaniu. Napisz po próbki w międzyczasie.",
         soon_ai: "Awatary AI i generowane grafiki są w drodze. Zapytaj o aktualne przykłady.",
@@ -1548,6 +1606,7 @@
         tab_websites: "Сайты", tab_video: "Видео", tab_ai: "Графика", tab_automation: "Автоматизация", tab_social: "Соцсети и реклама",
         pf_home: "← Главная", pf_web_title: "Сайты, которые я <em>сделал</em>", pf_web_aside: "Нажми, чтобы открыть вживую. Больше — по запросу.",
         pf_gfx_title: "Графика и <em>посты</em>", pf_gfx_aside: "Нажми, чтобы открыть в полном размере.",
+        pf_vid_title: "Видео и <em>рилсы</em>", pf_vid_aside: "Превью без звука — нажми, чтобы посмотреть со звуком.",
         pf_soon_title: "Скоро <em>будет</em>",
         soon_video: "Шоурил, монтажи и моушн готовятся. Пока — напиши за примерами.",
         soon_ai: "AI-аватары и графика на подходе. Спроси текущие примеры.",
