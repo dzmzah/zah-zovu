@@ -42,6 +42,20 @@
 
     img { display: block; max-width: 100%; }
 
+    /* subtle centered content frame — width matches the contact icon row */
+    .site-frame {
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1400px, 100% - 64px);
+      border-left: 1px solid rgba(255, 255, 255, 0.06);
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      pointer-events: none;
+      z-index: -1;
+    }
+
     /* ───── SPLASH PRELOADER ───── */
     .splash {
       position: fixed;
@@ -1103,6 +1117,8 @@
   </style>
 </head>
 <body>
+
+  <div class="site-frame" aria-hidden="true"></div>
 
   <!-- SPLASH PRELOADER -->
   <div class="splash" id="splash">
